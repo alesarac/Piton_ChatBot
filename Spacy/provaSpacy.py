@@ -54,6 +54,8 @@ while True:
             "\nPrima partiamo con: "+pozione+"\nQuali sono i suoi ingredienti? scrivili uno per volta\n")
         if "?" in ingrediente1:
             print("Le domande le faccio io")
+        elif ingrediente1.isupper():
+            print('Silenzio!! Non urlare')
         else:
             dict = parser(nlp(ingrediente1))
 
