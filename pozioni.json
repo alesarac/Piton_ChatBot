@@ -1,0 +1,54 @@
+{
+   "Pozione Sputafuoco":[
+      1,
+      "Menta",
+      "Lavanda",
+      "Polvere di Corno di drago",
+      "Semi di Fuoco",
+      "Ramoscelli di Valeriana"
+   ],
+   "Felix Felicis":[
+      4,
+      "Uovo di Ashwinder",
+      "Bulbo di Squill",
+      "Tentacolo di Murtlap",
+      "Tintura di timo",
+      "Guscio d'uovo di Occamy",
+      "Ruta comune in polvere"
+   ],
+   "Pozione 3":[
+      1,
+      "Piume di Jobberknoll",
+      "Salvia in polvere",
+      "Mandragola in umido",
+      "Bucaneve"
+   ],
+   "Pozione 4":[
+      2,
+      "Piume di Jobberknoll",
+      "Salvia in polvere",
+      "Mandragola in umido",
+      "Bucaneve"
+   ],
+   "Pozione 5":[
+      3,
+      "Piume di Jobberknoll",
+      "Salvia in polvere",
+      "Mandragola in umido",
+      "Bucaneve"
+   ],
+   "Pozione 6":[
+      5,
+      "Piume di Jobberknoll",
+      "Salvia in polvere",
+      "Mandragola in umido",
+      "Bucaneve"
+   ],
+   "Pozione 7":[
+      3,
+      "Piume di Jobberknoll",
+      "Salvia in polvere",
+      "Mandragola in umido",
+      "Bucaneve"
+   ]
+}

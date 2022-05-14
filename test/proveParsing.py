@@ -1,15 +1,17 @@
 import spacy
 from pathlib import Path
 from spacy import displacy
-import time
 
-nlp = spacy.load("it_core_news_md")
+imageCounter=0
+nlp = spacy.load("it_core_news_lg")
 
 ingredientePozione = "acqua"
 
 def displayParser(frase):
+    global imageCounter
+    imageCounter=imageCounter+1
     svg = displacy.render(frase, style="dep")
-    output_path = Path("./images/dependency_plot.svg")
+    output_path = Path("./images_test/dependency_plot{0}.svg".format(imageCounter))
     output_path.open("w", encoding="utf-8").write(svg)
 
 def parser(fraseIngrediente):
@@ -28,7 +30,6 @@ frase2="un'ingrediente è l'acqua"
 frase3="un'ingrediente per fare la pasta è l'acqua"
 frase4="l'acqua è un'ingrediente per fare la pasta"
 frase5="un'ingrediente è l'acqua, per fare la pasta"
-
 #frase che senza la virgola fotterebbe il sistema
 frase6="per fare la pasta, un'ingrediente è l'acqua"
 
@@ -39,4 +40,7 @@ dict = parser(nlp(frase3))
 dict = parser(nlp(frase4))
 dict = parser(nlp(frase5))
 dict = parser(nlp(frase6))
+
+
+
 
