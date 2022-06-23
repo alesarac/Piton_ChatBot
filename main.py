@@ -10,6 +10,7 @@ import time
 # come usare simpleNLG
 # mettere un comando di uscita
 
+
 #carico la conoscenza base di Italiano, le pozioni e setto la difficoltà di default
 util.load_KB()
 util.load_json()
@@ -68,6 +69,7 @@ while(domande>0):
 
         nome_pozione = str(list(pozioneScelta_dict.keys())[0])
         print("nome_pozione: " + str(nome_pozione))
+
 
         ingredienti_pozione = list(pozioneScelta_dict.values())[0]
         # cancello la difficoltà dalla lista di ingredienti
