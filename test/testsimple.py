@@ -6,6 +6,7 @@ phrase = simplenlg.SPhraseSpec(nlgFactory)
 
 #Devi dirmi il tuo nome..
 #you must tell me your name
+<<<<<<< HEAD
 phrase.setFeature(featureName=simplenlg.Feature.MODAL, featureValue="must")
 
 phrase.setTense(simplenlg.Tense.PRESENT)
@@ -15,6 +16,16 @@ phrase.setVerb("tell")
 phrase.setObject("your")
 phrase.setSubject("you")
 phrase.setComplement("name")
+=======
+phrase.setFeature(featureName=simplenlg.Feature.INTERROGATIVE_TYPE, featureValue=simplenlg.InterrogativeType.YES_NO)
+
+phrase.setTense(simplenlg.Tense.PAST)
+#phrase.setFeature(featureName=simplenlg.LexicalFeature.REFLEXIVE, featureValue="dio porcoo")
+
+phrase.setVerb("study")
+phrase.setSubject("you")
+
+>>>>>>> ale
 
 realizer = simplenlg.Realiser()
 output = realizer.realiseSentence(phrase)
