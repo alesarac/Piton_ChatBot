@@ -54,7 +54,28 @@ def ask_info(complemento):
     phrase.setComplement(complemento)
     return relalize_output(phrase)
 
-def no_answer():
+def no_answer(obj, complmentent):
+    phrase = init()
+
+    phrase.setFeature(featureName=simplenlg.Feature.MODAL, featureValue="must")
+
+    phrase.setVerb("tell")
+    phrase.setObject(obj)
+    phrase.setSubject("you")
+    phrase.setComplement(complmentent)
+    phrase.setIndirectObject("me")
+
+    return relalize_output(phrase)
+
+def verb_subj(verb,subject):
+    phrase = init()
+
+    phrase.setFeature(featureName=simplenlg.Feature.INTERROGATIVE_TYPE, featureValue=simplenlg.InterrogativeType.YES_NO)
+    phrase.setTense(simplenlg.Tense.PAST)
+    phrase.setVerb(verb)
+    phrase.setSubject(subject)
+
+    return relalize_output(phrase)
 
 #stampa la frase costruita in uno dei metodi precedenti
 def relalize_output(phrase):

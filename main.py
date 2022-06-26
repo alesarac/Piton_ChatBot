@@ -25,17 +25,16 @@ print(sp.build_phrase_complete("I","be","Severus Piton"))
 util.loading()
 
 #parte relativa al riconoscimento del nome
-print("\n")
-risposta_nome = input(sp.ask_info("name")+"\n")
+risposta_nome = input("\n" + sp.ask_info("name") + "\n")
 
 util.loading()
 util.checkFrase(risposta_nome)
 nome=util.parser_ne(risposta_nome)
 while(nome is None):
     util.loading()
-    risposta_nome = input("\nDevi dirmi il tuo nome..\n")
+    risposta_nome = input("\n" + sp.no_answer("your","name") + "\n")
     nome = util.parser_ne(risposta_nome)
-print(f"\nCiao {nome}, hai studiato?")
+print(f"\n{nome}" + ", " + sp.verb_subj("study","you").lower()) #have you studied / did you study
 
 haiStudiato=input()
 util.checkFrase(haiStudiato)
