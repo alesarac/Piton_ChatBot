@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import simplenlg
 
 #inizializza la phrase con la libreria SimpleNLG
@@ -57,13 +56,12 @@ def ask_info(complemento):
 
 def no_answer():
 
-#stampa la frase costruita in uno dei metodi precedenti
+# stampa la frase costruita in uno dei metodi precedenti
 def relalize_output(phrase):
     realizer = simplenlg.Realiser()
     output = realizer.realiseSentence(phrase)
     return output
 
-=======
 import simplenlg
 
 #inizializza la phrase con la libreria SimpleNLG
@@ -148,5 +146,3 @@ def relalize_output(phrase):
     realizer = simplenlg.Realiser()
     output = realizer.realiseSentence(phrase)
     return output
-
->>>>>>> ale
