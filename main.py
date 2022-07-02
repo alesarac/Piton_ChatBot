@@ -15,6 +15,7 @@ import simpleNLG as sp
 util.load_KB()
 util.load_json()
 difficolta = 5
+#commento di prova
 
 # decido, in base a che ora sia, se dire: "Buongiorno" o "Buonasera"
 if util.getTime() >= 18:
