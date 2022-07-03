@@ -54,7 +54,7 @@ def ask_info(complemento):
     phrase.setComplement(complemento)
     return relalize_output(phrase)
 
-def no_answer():
+#def no_answer():
 
 # stampa la frase costruita in uno dei metodi precedenti
 def relalize_output(phrase):
