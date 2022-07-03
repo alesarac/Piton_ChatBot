@@ -88,28 +88,13 @@ while domande > 0:
         risposta = input(util.selectQuestion() + nome_pozione + ". (Scrivili uno per volta)\n")
         util.checkFrase(risposta)
 
-    # controllo inanzitutto se nella risposta scritta al bot ci sia un'ingrediente che mi aspetto
+    # dovrei controllare inanzitutto se nella risposta scritta al bot ci sia un'ingrediente che mi aspetto
     # altrimenti non mi metto manco ad analizzare la frase
 
     # da qua in poi è tutto da rivedere
     #nel senso che c'è da capire come accettiamo una risposta
     #la mia idea è di accettare una risposta che abbia come soggetto l'ingrediente e basta, ma è fin troppo semplice come condizione
-    if risposta in ingredienti_pozione:
-        rispostaParsata = util.parser_dep(risposta)
-        print("l'ingrediente è nella risposta")
-        # controllo se ho scritto la parola 'ingrediente' all'interno della risposta scritta al bot
-        if "ingrediente" in risposta:
-            # controllo se l'ingrediente nella frase dell'utente o la parola 'ingrediente' sia il soggetto della frase
-            print("la parola 'ingrediente' è nella risposta'")
-        # if(str(rispostaParsata['ingrediente'][0]) == "nsubj" or str(rispostaParsata[ingredientePozione][0]) ==
-        # "nsubj"): print("OK, risposta corretta\n")
 
-        # elif(str(dict[ingredientePozione][0]) == "nsubj"):
-        # print("ok, l'ingrediente c'è nella frase ed è il soggetto")
-        else:
-            print("mmh, hai detto l'ingrediente ma la frase è decontestualizzata..")
-    else:
-        print("La risposta non mi piace, non mi hai scritto l'ingrediente")
 
     domande = domande - 1
     difficolta = 3
