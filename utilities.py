@@ -3,7 +3,10 @@ import random
 from time import sleep
 from spacy import displacy
 from datetime import datetime
-import it_core_news_lg
+#small KB
+import en_core_web_sm
+#big KB
+#import en_core_web_trf
 import json
 
 imageCounter=0
@@ -14,7 +17,7 @@ pozioni = {}
 #caricare la KB allenata in italiano
 def load_KB():
     global nlp
-    nlp = it_core_news_lg.load()
+    nlp = en_core_web_sm.load()
 
 #per caricare il JSON con le pozioni
 def load_json():
@@ -36,10 +39,20 @@ def displayParser(frase):
 def parser_dep(fraseIngrediente):
     frase_parsata=nlp(fraseIngrediente)
     dict = {}
-    for token in fraseIngrediente:
+    for token in frase_parsata:
         dict[token.text]=[token.dep_,token.head.text,[child for child in token.children]]
         print(f"text={token.text},dep={token.dep_}, head_text={token.head.text}, figli={[child for child in token.children]}")
     displayParser(frase_parsata)
+    return dict
+
+#serve a parsificare solo le dipendenze di una frase
+def parser_oly_dep(frase):
+    frase_parsata=nlp(frase)
+    dict = {}
+    for token in frase_parsata:
+        dict[token.text]=token.dep_
+        #print(f"text={token.text},dep={token.dep_}")
+    #displayParser(frase_parsata)
     return dict
 
 #serve per parsificare le entity e vedere se nella frase c'è un nome proprio di persona
@@ -50,7 +63,7 @@ def parser_ne(frase):
         dict[token.text]=[token.text, token.start_char, token.end_char, token.label_]
         #print(f"text={token.text},inizio_stringa={token.start_char}, fine_stringa={token.end_char}, etichetta={token.label_}")
     for key, value in dict.items():
-        if("PER" in value):
+        if("PERSON" in value):
             return key
     return None
 
