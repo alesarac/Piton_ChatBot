@@ -163,3 +163,41 @@ def realize_output(phrase):
     realizer = simplenlg.Realiser()
     output = realizer.realiseSentence(phrase)
     return output
+
+
+def printAskPotion(potion):
+    lexicon = simplenlg.Lexicon.getDefaultLexicon()
+    nlgFactory = simplenlg.NLGFactory(lexicon)
+    np_potion = nlgFactory.createNounPhrase("the", potion)
+    np_ingredients = nlgFactory.createNounPhrase("ingredient")
+    np_ingredients.setPlural(True)
+    proposition = nlgFactory.createClause(np_ingredients, "compose", np_potion)
+    proposition.setFeature(simplenlg.Feature.INTERROGATIVE_TYPE, simplenlg.InterrogativeType.WHAT_SUBJECT)
+    proposition.setPlural(True)
+    output = realize_output(proposition)
+    print(output)
+
+
+def printAskIngredient(nIngredient):
+    lexicon = simplenlg.Lexicon.getDefaultLexicon()
+    nlgFactory = simplenlg.NLGFactory(lexicon)
+    np_number = nlgFactory.createNounPhrase(str(nIngredient))
+    np_ingredients = nlgFactory.createNounPhrase("ingredient")
+    np_missing = nlgFactory.createNounPhrase("missing")
+    np_ingredients.addPreModifier(np_number)
+    proposition = nlgFactory.createClause(np_ingredients, "be", np_missing)
+    if nIngredient > 1:
+        np_ingredients.setPlural(True)
+        proposition.setPlural(True)
+        np_missing.setPlural(True)
+
+    output = realize_output(proposition)
+    print(output)
+    np_ingr = nlgFactory.createNounPhrase("ingredient")
+    if nIngredient > 1:
+        np_ingr.setPlural(True)
+
+    continue_proposition = nlgFactory.createClause("you", "nominate", np_ingr)
+    continue_proposition.setFeature(simplenlg.Feature.FORM, simplenlg.Form.IMPERATIVE)
+    output = realize_output(continue_proposition)
+    print(" " + output)

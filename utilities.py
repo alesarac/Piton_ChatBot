@@ -73,9 +73,10 @@ def parser_ne(frase):
     dict = {}
     for token in frase_parsata.ents:
         dict[token.text] = [token.text, token.start_char, token.end_char, token.label_]
-        # print(f"text={token.text},inizio_stringa={token.start_char}, fine_stringa={token.end_char}, etichetta={token.label_}")
+        # print(f"text={token.text},inizio_stringa={token.start_char}, fine_stringa={token.end_char}, etichetta={
+        # token.label_}")
     for key, value in dict.items():
-        if ("PERSON" in value):
+        if "PERSON" in value:
             return key
     return None
 
@@ -97,9 +98,8 @@ def selectPoison(difficoltà):
     while True:
         pozionicopia = pozioni
         pozione = random.choice(list(pozionicopia))
-        if (pozionicopia[pozione][0] == difficoltà):
-            pozioneScelta = {}
-            pozioneScelta[pozione] = pozionicopia[pozione]
+        if pozionicopia[pozione][0] == difficoltà:
+            pozioneScelta = {pozione: pozionicopia[pozione]}
             break
     return pozioneScelta
 
@@ -111,13 +111,13 @@ def selectQuestion():
 
 
 def checkScream(frase):
-    if (frase.isupper()):
+    if frase.isupper():
         print("\nNon urlare!\n")
         sleep(2)
 
 
 def checkQuestion(frase):
-    if ("?" in frase):
+    if "?" in frase:
         print("Le domande le faccio io!\n")
         sleep(2)
 
@@ -126,6 +126,4 @@ def checkFrase(frase):
     checkScream(frase)
     checkQuestion(frase)
 
-
 # funzione per timeout attesa input
-

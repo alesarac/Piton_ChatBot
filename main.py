@@ -63,15 +63,19 @@ else:
     exit()
 
 domande = 3
-domande_fatte=1
+domande_fatte = 1
+
+ingredienti_indovinati = []
 
 while domande > domande_fatte:
 
+    # Qual'è l'ingerdiente della pozione
+
     print("Siamo alla domanda numero: " + str(domande_fatte))
     print("La difficoltà attuale è: " + str(difficolta))
-    # scelgo la prima domanda (che è un dizionario (quindi il nostro fram è un dizionario che contiene una pozione alla volta) con solo una pozione all'interno
-    # all'inizio "difficoltà" sarà quella di default, cioè 5
-    # poi cambierà ad ogni cilo in base alle risposte date dall'utente
+    # scelgo la prima domanda (che è un dizionario (quindi il nostro fram è un dizionario che contiene una pozione
+    # alla volta) con solo una pozione all'interno all'inizio "difficoltà" sarà quella di default, cioè 5 poi
+    # cambierà ad ogni cilo in base alle risposte date dall'utente
     pozioneScelta_dict = {}
     # print("pozioneScelta_dict init: " + str(pozioneScelta_dict))
     pozioneScelta_dict = util.selectPoison(difficolta)
@@ -81,6 +85,10 @@ while domande > domande_fatte:
     print("nome_pozione attuale: " + str(nome_pozione))
 
     ingredienti_pozione = list(pozioneScelta_dict.values())[0]
+    if domande_fatte == 1:
+        ingredienti_indovinati = []
+    print(ingredienti_indovinati)
+
     # cancello la difficoltà dalla lista di ingredienti
     ingredienti_pozione.pop(0)
     print("ingredienti_pozione attuale: " + str(ingredienti_pozione))
@@ -99,12 +107,10 @@ while domande > domande_fatte:
     # dovrei controllare inanzitutto se nella risposta scritta al bot ci sia un'ingrediente che mi aspetto
     # altrimenti non mi metto manco ad analizzare la frase
 
-    # da qua in poi è tutto da rivedere
-    # nel senso che c'è da capire come accettiamo una risposta
-    # la mia idea è di accettare una risposta che abbia come soggetto l'ingrediente e basta, ma è fin troppo semplice come condizione
+    # da qua in poi è tutto da rivedere nel senso che c'è da capire come accettiamo una risposta la mia idea è di
+    # accettare una risposta che abbia come soggetto l'ingrediente e basta, ma è fin troppo semplice come condizione
 
     domande = domande - 1
-    domande_fatte = domande_fatte+1
+    domande_fatte = domande_fatte + 1
 
     difficolta = 3
-
