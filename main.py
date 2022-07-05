@@ -26,12 +26,14 @@ util.loading()
 
 # parte relativa al riconoscimento del nome
 risposta_nome = input("\n" + sp.ask_info("name") + "\n")
+casata_nome = input("\n" + sp.ask_info("house") + "\n")
 if len(risposta_nome.split()) == 1:
     nome = risposta_nome
 else:
     nome = util.parser_ne(risposta_nome)
 util.loading()
 util.checkFrase(risposta_nome)
+util.checkFrase(casata_nome)
 
 while nome is None:
     util.loading()
@@ -63,32 +65,36 @@ else:
     exit()
 
 domande = 3
-domande_fatte=1
+domande_fatte = 0
 
 while domande > domande_fatte:
 
-    print("Siamo alla domanda numero: " + str(domande_fatte))
-    print("La difficoltà attuale è: " + str(difficolta))
+    print("Siamo alla domanda numero: " + str(domande_fatte + 1))
+    # print("La difficoltà attuale è: " + str(difficolta))
     # scelgo la prima domanda (che è un dizionario (quindi il nostro fram è un dizionario che contiene una pozione alla volta) con solo una pozione all'interno
     # all'inizio "difficoltà" sarà quella di default, cioè 5
     # poi cambierà ad ogni cilo in base alle risposte date dall'utente
     pozioneScelta_dict = {}
     # print("pozioneScelta_dict init: " + str(pozioneScelta_dict))
     pozioneScelta_dict = util.selectPoison(difficolta)
-    print("pozioneScelta_dict:" + str(pozioneScelta_dict))
+
+    # print("pozioneScelta_dict:" + str(pozioneScelta_dict))
 
     nome_pozione = str(list(pozioneScelta_dict.keys())[0])
-    print("nome_pozione attuale: " + str(nome_pozione))
+
+    # print("nome_pozione attuale: " + str(nome_pozione))
 
     ingredienti_pozione = list(pozioneScelta_dict.values())[0]
     # cancello la difficoltà dalla lista di ingredienti
     ingredienti_pozione.pop(0)
-    print("ingredienti_pozione attuale: " + str(ingredienti_pozione))
-    time.sleep(2)
+
+    # print("ingredienti_pozione attuale: " + str(ingredienti_pozione))
+
+    time.sleep(1)
 
     # la prima volta dice "Partiamo" poi dopo cicla su delle frasi diverse
     # anche qua c'è da usare SimpleNLG per costruire ste frasi
-    if domande_fatte == 1:
+    if domande_fatte == 0:
         risposta = input(
             f"\nPartiamo con: {nome_pozione}\nQuali sono i suoi ingredienti?\n")
     else:
@@ -97,15 +103,10 @@ while domande > domande_fatte:
     if util.checkFrase(risposta):
         util.get_ingredient(risposta)
 
-    # dovrei controllare inanzitutto se nella risposta scritta al bot ci sia un'ingrediente che mi aspetto
-    # altrimenti non mi metto manco ad analizzare la frase
-
-    # da qua in poi è tutto da rivedere
-    # nel senso che c'è da capire come accettiamo una risposta
-    # la mia idea è di accettare una risposta che abbia come soggetto l'ingrediente e basta, ma è fin troppo semplice come condizione
-
-    domande = domande - 1
-    domande_fatte = domande_fatte+1
+    domande = domande
+    domande_fatte = domande_fatte + 1
 
     difficolta = 3
 
+print('Good, we finished the exam')
+print('Scores')
