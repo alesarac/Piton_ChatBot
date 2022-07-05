@@ -1,9 +1,6 @@
-import spacy
 from pathlib import Path
+import spacy
 from spacy import displacy
-from rapidfuzz.distance import Levenshtein
-import time
-import random
 
 # caricare la KB allenata in italiano "python -m spacy download it_core_news_md"
 nlp = spacy.load("en_core_web_sm")

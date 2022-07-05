@@ -90,11 +90,12 @@ while domande > domande_fatte:
     # anche qua c'è da usare SimpleNLG per costruire ste frasi
     if domande_fatte == 1:
         risposta = input(
-            f"\nPartiamo con: {nome_pozione}\nQuali sono i suoi ingredienti? (Scrivili uno per volta)\n")
-        util.checkFrase(risposta)
+            f"\nPartiamo con: {nome_pozione}\nQuali sono i suoi ingredienti?\n")
     else:
-        risposta = input(util.selectQuestion() + nome_pozione + ". (Scrivili uno per volta)\n")
-        util.checkFrase(risposta)
+        risposta = input(util.selectQuestion() + nome_pozione + ".\n")
+
+    if util.checkFrase(risposta):
+        util.get_ingredient(risposta)
 
     # dovrei controllare inanzitutto se nella risposta scritta al bot ci sia un'ingrediente che mi aspetto
     # altrimenti non mi metto manco ad analizzare la frase
