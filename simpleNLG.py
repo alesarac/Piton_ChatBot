@@ -1,15 +1,17 @@
 import simplenlg
 
-#inizializza la phrase con la libreria SimpleNLG
+
+# inizializza la phrase con la libreria SimpleNLG
 def init():
     lexicon = simplenlg.Lexicon.getDefaultLexicon()
     nlgFactory = simplenlg.NLGFactory(lexicon)
     phrase = simplenlg.SPhraseSpec(nlgFactory)
     return phrase
 
-#costruisce una frase normale completa
-def build_phrase_complete(soggetto,verbo,complemento):
-    phrase=init()
+
+# costruisce una frase normale completa
+def build_phrase_complete(soggetto, verbo, complemento):
+    phrase = init()
 
     phrase.setFeature(featureName=simplenlg.Feature.FORM, featureValue=simplenlg.ABC)
     phrase.setTense(simplenlg.Tense.PRESENT)
@@ -18,21 +20,23 @@ def build_phrase_complete(soggetto,verbo,complemento):
     phrase.setSubject(soggetto)
     phrase.setComplement(complemento)
 
-    return relalize_output(phrase)
+    return realize_output(phrase)
 
-#costruisce una frase con solo un complemento
+
+# costruisce una frase con solo un complemento
 def build_phrase(complemento):
-    phrase=init()
+    phrase = init()
 
     phrase.setFeature(featureName=simplenlg.Feature.FORM, featureValue=simplenlg.ABC)
     phrase.setTense(simplenlg.Tense.PRESENT)
 
     phrase.setComplement(complemento)
-    return relalize_output(phrase)
+    return realize_output(phrase)
 
-#costruisce una domanda
+
+# costruisce una domanda
 def build_question(text):
-    phrase=init()
+    phrase = init()
 
     phrase.setFeature(featureName=simplenlg.Feature.INTERROGATIVE_TYPE, featureValue=simplenlg.InterrogativeType.WHY)
     phrase.setTense(simplenlg.Tense.PRESENT)
@@ -40,7 +44,8 @@ def build_question(text):
     # phrase.setVerb("go")
     # phrase.setSubject("you")
     phrase.setComplement(text)
-    return relalize_output(phrase)
+    return realize_output(phrase)
+
 
 def ask_info(complemento):
     phrase = init()
@@ -48,13 +53,15 @@ def ask_info(complemento):
     phrase.setVerb("be")
     phrase.setObject("your")
 
-    phrase.setFeature(featureName=simplenlg.Feature.INTERROGATIVE_TYPE, featureValue=simplenlg.InterrogativeType.WHAT_SUBJECT)
+    phrase.setFeature(featureName=simplenlg.Feature.INTERROGATIVE_TYPE,
+                      featureValue=simplenlg.InterrogativeType.WHAT_SUBJECT)
     phrase.setTense(simplenlg.Tense.PRESENT)
 
     phrase.setComplement(complemento)
-    return relalize_output(phrase)
+    return realize_output(phrase)
 
-#def no_answer():
+
+# def no_answer():
 
 # stampa la frase costruita in uno dei metodi precedenti
 def relalize_output(phrase):
@@ -62,18 +69,21 @@ def relalize_output(phrase):
     output = realizer.realiseSentence(phrase)
     return output
 
+
 import simplenlg
 
-#inizializza la phrase con la libreria SimpleNLG
+
+# inizializza la phrase con la libreria SimpleNLG
 def init():
     lexicon = simplenlg.Lexicon.getDefaultLexicon()
     nlgFactory = simplenlg.NLGFactory(lexicon)
     phrase = simplenlg.SPhraseSpec(nlgFactory)
     return phrase
 
-#costruisce una frase normale completa
-def build_phrase_complete(soggetto,verbo,complemento):
-    phrase=init()
+
+# costruisce una frase normale completa
+def build_phrase_complete(soggetto, verbo, complemento):
+    phrase = init()
 
     phrase.setFeature(featureName=simplenlg.Feature.FORM, featureValue=simplenlg.ABC)
     phrase.setTense(simplenlg.Tense.PRESENT)
@@ -82,21 +92,23 @@ def build_phrase_complete(soggetto,verbo,complemento):
     phrase.setSubject(soggetto)
     phrase.setComplement(complemento)
 
-    return relalize_output(phrase)
+    return realize_output(phrase)
 
-#costruisce una frase con solo un complemento
+
+# costruisce una frase con solo un complemento
 def build_phrase(complemento):
-    phrase=init()
+    phrase = init()
 
     phrase.setFeature(featureName=simplenlg.Feature.FORM, featureValue=simplenlg.ABC)
     phrase.setTense(simplenlg.Tense.PRESENT)
 
     phrase.setComplement(complemento)
-    return relalize_output(phrase)
+    return realize_output(phrase)
 
-#costruisce una domanda
+
+# costruisce una domanda
 def build_question(text):
-    phrase=init()
+    phrase = init()
 
     phrase.setFeature(featureName=simplenlg.Feature.INTERROGATIVE_TYPE, featureValue=simplenlg.InterrogativeType.WHY)
     phrase.setTense(simplenlg.Tense.PRESENT)
@@ -104,7 +116,8 @@ def build_question(text):
     # phrase.setVerb("go")
     # phrase.setSubject("you")
     phrase.setComplement(text)
-    return relalize_output(phrase)
+    return realize_output(phrase)
+
 
 def ask_info(complemento):
     phrase = init()
@@ -112,11 +125,13 @@ def ask_info(complemento):
     phrase.setVerb("be")
     phrase.setObject("your")
 
-    phrase.setFeature(featureName=simplenlg.Feature.INTERROGATIVE_TYPE, featureValue=simplenlg.InterrogativeType.WHAT_SUBJECT)
+    phrase.setFeature(featureName=simplenlg.Feature.INTERROGATIVE_TYPE,
+                      featureValue=simplenlg.InterrogativeType.WHAT_SUBJECT)
     phrase.setTense(simplenlg.Tense.PRESENT)
 
     phrase.setComplement(complemento)
-    return relalize_output(phrase)
+    return realize_output(phrase)
+
 
 def no_answer(obj, complmentent):
     phrase = init()
@@ -129,9 +144,10 @@ def no_answer(obj, complmentent):
     phrase.setComplement(complmentent)
     phrase.setIndirectObject("me")
 
-    return relalize_output(phrase)
+    return realize_output(phrase)
 
-def verb_subj(verb,subject):
+
+def verb_subj(verb, subject):
     phrase = init()
 
     phrase.setFeature(featureName=simplenlg.Feature.INTERROGATIVE_TYPE, featureValue=simplenlg.InterrogativeType.YES_NO)
@@ -139,10 +155,11 @@ def verb_subj(verb,subject):
     phrase.setVerb(verb)
     phrase.setSubject(subject)
 
-    return relalize_output(phrase)
+    return realize_output(phrase)
 
-#stampa la frase costruita in uno dei metodi precedenti
-def relalize_output(phrase):
+
+# stampa la frase costruita in uno dei metodi precedenti
+def realize_output(phrase):
     realizer = simplenlg.Realiser()
     output = realizer.realiseSentence(phrase)
     return output

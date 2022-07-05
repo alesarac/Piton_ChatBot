@@ -15,7 +15,6 @@ util.load_KB()
 util.load_json()
 difficolta = 5
 
-
 # decido, in base a che ora sia, se dire: "Buongiorno" o "Buonasera"
 if util.getTime() >= 18:
     print(sp.build_phrase("Good evening"))
@@ -27,22 +26,29 @@ util.loading()
 
 # parte relativa al riconoscimento del nome
 risposta_nome = input("\n" + sp.ask_info("name") + "\n")
-
+if len(risposta_nome.split()) == 1:
+    nome = risposta_nome
+else:
+    nome = util.parser_ne(risposta_nome)
 util.loading()
 util.checkFrase(risposta_nome)
-nome = util.parser_ne(risposta_nome)
+
 while nome is None:
     util.loading()
     risposta_nome = input("\n" + sp.no_answer("your", "name") + "\n")
-    nome = util.parser_ne(risposta_nome)
+    # controllo che la risposta è una frase, oppure il nome diretto
 print(f"\n{nome}" + ", " + sp.verb_subj("study", "you").lower())  # have you studied / did you study
 
-haiStudiato = input()
+haiStudiato = input()  # si potrebbe parsificare la frase (si ho studiato, no non ho studiato)
 util.checkFrase(haiStudiato)
+if 'not' in haiStudiato.lower() or '\'t' in haiStudiato.lower() or 'no' in haiStudiato.lower():
+    haiStudiato = False
+else:
+    haiStudiato = True
 
-if (haiStudiato.lower() == "yes"):
+if haiStudiato:
     util.loading()
-    #qui c'è da richiamare SimpleNLG e fargli crrare la frase nella print in inglese
+    # qui c'è da richiamare SimpleNLG e fargli creare la frase nella print in inglese
     print("\nBene, ora lo scopriremo..")
     time.sleep(1)
     # qui c'è da richiamare SimpleNLG e fargli crrare la frase nella print in inglese
@@ -57,16 +63,17 @@ else:
     exit()
 
 domande = 3
+domande_fatte=1
 
-while domande > 0:
+while domande > domande_fatte:
 
-    print("Siamo alla domanda numero: " + str(domande))
+    print("Siamo alla domanda numero: " + str(domande_fatte))
     print("La difficoltà attuale è: " + str(difficolta))
     # scelgo la prima domanda (che è un dizionario (quindi il nostro fram è un dizionario che contiene una pozione alla volta) con solo una pozione all'interno
     # all'inizio "difficoltà" sarà quella di default, cioè 5
     # poi cambierà ad ogni cilo in base alle risposte date dall'utente
     pozioneScelta_dict = {}
-    #print("pozioneScelta_dict init: " + str(pozioneScelta_dict))
+    # print("pozioneScelta_dict init: " + str(pozioneScelta_dict))
     pozioneScelta_dict = util.selectPoison(difficolta)
     print("pozioneScelta_dict:" + str(pozioneScelta_dict))
 
@@ -80,9 +87,10 @@ while domande > 0:
     time.sleep(2)
 
     # la prima volta dice "Partiamo" poi dopo cicla su delle frasi diverse
-    #anche qua c'è da usare SimpleNLG per costruire ste frasi
-    if domande == 3:
-        risposta = input(f"\nPartiamo con: {nome_pozione}\nQuali sono i suoi ingredienti? (Scrivili uno per volta)\n")
+    # anche qua c'è da usare SimpleNLG per costruire ste frasi
+    if domande_fatte == 1:
+        risposta = input(
+            f"\nPartiamo con: {nome_pozione}\nQuali sono i suoi ingredienti? (Scrivili uno per volta)\n")
         util.checkFrase(risposta)
     else:
         risposta = input(util.selectQuestion() + nome_pozione + ". (Scrivili uno per volta)\n")
@@ -92,9 +100,11 @@ while domande > 0:
     # altrimenti non mi metto manco ad analizzare la frase
 
     # da qua in poi è tutto da rivedere
-    #nel senso che c'è da capire come accettiamo una risposta
-    #la mia idea è di accettare una risposta che abbia come soggetto l'ingrediente e basta, ma è fin troppo semplice come condizione
-
+    # nel senso che c'è da capire come accettiamo una risposta
+    # la mia idea è di accettare una risposta che abbia come soggetto l'ingrediente e basta, ma è fin troppo semplice come condizione
 
     domande = domande - 1
+    domande_fatte = domande_fatte+1
+
     difficolta = 3
+
