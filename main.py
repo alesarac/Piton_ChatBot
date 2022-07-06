@@ -77,9 +77,13 @@ while domande > domande_fatte:
     ingredienti_pozione = list(pozioneScelta_dict.values())[0][1]
     domande_pozione = len(ingredienti_pozione) + 1
 
-    ingredienti_pozione, score_ = util.ask_question(nome_pozione, domande_fatte, ingredienti_pozione,
-                                                    ingredienti_indovinati, difficolta,
-                                                    False, False)
+    while len(ingredienti_pozione) > 1 or domande_pozione > 1:
+        domande_pozione -= 1
+        print(str(domande_pozione) + 'domande pozione')
+        ingredienti_pozione, score_ = util.ask_question(nome_pozione, domande_fatte, ingredienti_pozione,
+                                                        ingredienti_indovinati, difficolta,
+                                                        False)
+        score += score_
 
     print(score)
     domande_fatte += 1
@@ -135,13 +139,13 @@ else:
 
    # la prima volta dice "Partiamo" poi dopo cicla su delle frasi diverse
    # anche qua c'è da usare SimpleNLG per costruire ste frasi
-   
-       
-       
+
+
+
     #if util.checkFrase(risposta):
     print(util.get_ingredient(risposta))
 
     # da qua in poi è tutto da rivedere nel senso che c'è da capire come accettiamo una risposta la mia idea è di
     # accettare una risposta che abbia come soggetto l'ingrediente e basta, ma è fin troppo semplice come condizione
-       
+
        '''

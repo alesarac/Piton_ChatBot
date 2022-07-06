@@ -189,11 +189,7 @@ def printAskPotion(potion, ingredienti_mancanti, domande_fatte):
             output = realize_output(proposition)
             print("Let's start with the potion, " + output.lower())
 
-    sentence = realize_output(proposition)
-    f = open("questions_memory.txt", "a")
-    f.write(sentence)
-    f.close()
-    return sentence
+    return realize_output(proposition)
 
 
 def printAskIngredient(nIngredient):
@@ -221,9 +217,4 @@ def printAskIngredient(nIngredient):
     continue_proposition = nlgFactory.createClause(np_ingredients, "be")
     continue_proposition.setFeature(simplenlg.Feature.INTERROGATIVE_TYPE, simplenlg.InterrogativeType.WHAT_OBJECT)
 
-    sentence = realize_output(proposition) + "\n" + realize_output(continue_proposition) + '\n'
-    f = open("questions_memory.txt", "a")
-    f.write(sentence)
-    f.close()
-
-    return sentence
+    return realize_output(proposition) + "\n" + realize_output(continue_proposition)
