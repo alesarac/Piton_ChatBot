@@ -4,6 +4,12 @@ import time
 import simpleNLG as sp
 
 # TODO:
+#   Nomi alberto alessandro enrico
+#   Quando risponde e che sia coerente con la domanda
+#   Controllo della casata
+#   Score, in base al voto ti da un giudizio
+#   Memory
+#   Pulizia generale
 
 # carico la conoscenza base, le pozioni e setto la difficoltà di default
 util.load_KB()
@@ -91,61 +97,3 @@ while domande > domande_fatte:
 
 print('Good, we finished the exam')
 print(sp.printScore(score, casata_nome))
-
-'''
-if haiStudiato:
-    util.loading()
-    # qui c'è da richiamare SimpleNLG e fargli creare la frase nella print in inglese
-    print("\nBene, ora lo scopriremo..")
-    time.sleep(1)
-    # qui c'è da richiamare SimpleNLG e fargli crrare la frase nella print in inglese
-    print("Ti chiederò gli ingredienti di 3 pozioni, e poi ti darò un voto.\n")
-    time.sleep(2)
-    util.loading()
-else:
-    util.loading()
-    # qui c'è da richiamare SimpleNLG e fargli crrare la frase nella print in inglese
-    print("\nMolto male, ci vediamo la prossima volta!")
-    time.sleep(2)
-    exit()
-
-
-
-
-    print("Siamo alla domanda numero: " + str(domande_fatte + 1))
-   # print("La difficoltà attuale è: " + str(difficolta))
-   # scelgo la prima domanda (che è un dizionario (quindi il nostro fram è un dizionario che contiene una pozione alla volta) con solo una pozione all'interno
-   # all'inizio "difficoltà" sarà quella di default, cioè 5
-   # poi cambierà ad ogni cilo in base alle risposte date dall'utente
-   # print("pozioneScelta_dict init: " + str(pozioneScelta_dict))
-   pozioneScelta_dict = util.selectPoison(difficolta)
-
-   # print("pozioneScelta_dict:" + str(pozioneScelta_dict))
-
-   nome_pozione = str(list(pozioneScelta_dict.keys())[0])
-
-   # print("nome_pozione attuale: " + str(nome_pozione))
-
-   ingredienti_pozione = list(pozioneScelta_dict.values())[0]
-   if domande_fatte == 1:
-       ingredienti_indovinati = []
-
-   # cancello la difficoltà dalla lista di ingredienti
-   ingredienti_pozione.pop(0)
-
-   # print("ingredienti_pozione attuale: " + str(ingredienti_pozione))
-
-   time.sleep(1)
-
-   # la prima volta dice "Partiamo" poi dopo cicla su delle frasi diverse
-   # anche qua c'è da usare SimpleNLG per costruire ste frasi
-
-
-
-    #if util.checkFrase(risposta):
-    print(util.get_ingredient(risposta))
-
-    # da qua in poi è tutto da rivedere nel senso che c'è da capire come accettiamo una risposta la mia idea è di
-    # accettare una risposta che abbia come soggetto l'ingrediente e basta, ma è fin troppo semplice come condizione
-
-       '''
