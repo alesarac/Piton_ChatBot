@@ -12,6 +12,7 @@ import en_core_web_sm
 # big KB
 # import en_core_web_trf
 import json
+import simpleNLG
 
 imageCounter = 0
 nlp = None
@@ -73,7 +74,8 @@ def parser_ne(frase):
     dict = {}
     for token in frase_parsata.ents:
         dict[token.text] = [token.text, token.start_char, token.end_char, token.label_]
-        # print(f"text={token.text},inizio_stringa={token.start_char}, fine_stringa={token.end_char}, etichetta={token.label_}")
+        # print(f"text={token.text},inizio_stringa={token.start_char}, fine_stringa={token.end_char}, etichetta={
+        # token.label_}")
     for key, value in dict.items():
         if "PERSON" in value:
             return key
@@ -120,14 +122,14 @@ def selectQuestion():
 
 
 def checkScream(frase):
-    if (frase.isupper()):
-        print("\nNon urlare!\n")
+    if frase.isupper():
+        print("\nDon't scream!\n")
         sleep(2)
 
 
 def checkQuestion(frase):
     if "?" in frase:
-        print("Le domande le faccio io!\n")
+        print("I ask the questions!\n")
         sleep(2)
 
 
@@ -140,9 +142,9 @@ def ask_question(pozione, domande_fatte, ingredienti_pozione, ingredienti_indovi
     if not aiuto:
         if domande_fatte == 0:
             risposta = input(
-                f"\nPartiamo con la pozione {pozione}\nQuali sono i suoi ingredienti?\n")
+                simpleNLG.printAskPotion(pozione, ingredienti_pozione, domande_fatte))
         else:
-            risposta = input(selectQuestion() + pozione + ".\n")
+            risposta = input(simpleNLG.printAskPotion(pozione, ingredienti_pozione, domande_fatte))
     else:
         ingrediente = random.choice(get_all_ingredients())
 
@@ -201,7 +203,8 @@ def wrong_ingredient():
 def check_ingredient(ingrediente, ingredienti):
     print(ingrediente, ingredienti)
     if ingrediente in ingredienti:
-        print('trovato')
+        print("Correct!\n")
+        simpleNLG.printAskIngredient(len(ingredienti))
         ingredienti.remove(ingrediente)
         return ingredienti, True
     else:
