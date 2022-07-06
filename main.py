@@ -27,15 +27,15 @@ util.loading()
 
 # parte relativa al riconoscimento del nome
 risposta_nome = input("\n" + sp.ask_info("name") + "\n")
-
-nome = util.parser_ne(risposta_nome)
 util.loading()
 util.checkFrase(risposta_nome)
 
+nome = util.parser_ne(risposta_nome)
 
 while nome is None:
     util.loading()
     risposta_nome = input("\n" + sp.no_answer("your", "name") + "\n")
+    nome = util.parser_ne(risposta_nome)
     # controllo che la risposta è una frase, oppure il nome diretto
 print(f"\n{nome}" + ", " + sp.verb_subj("study", "you").lower())  # have you studied / did you study
 
