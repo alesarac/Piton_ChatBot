@@ -51,7 +51,7 @@ else:
 if haiStudiato:
     util.loading()
     # qui c'è da richiamare SimpleNLG e fargli creare la frase nella print in inglese
-    print("\nBene, ora lo scopriremo..")
+    print("\nWell, now we will find out ..")
     time.sleep(1)
     # qui c'è da richiamare SimpleNLG e fargli crrare la frase nella print in inglese
     print("Ti chiederò gli ingredienti di 3 pozioni, e poi ti darò un voto.\n")
@@ -60,7 +60,7 @@ if haiStudiato:
 else:
     util.loading()
     # qui c'è da richiamare SimpleNLG e fargli crrare la frase nella print in inglese
-    print("\nMolto male, ci vediamo la prossima volta!")
+    print("\nVery bad, see you next time!")
     time.sleep(2)
     exit()
 

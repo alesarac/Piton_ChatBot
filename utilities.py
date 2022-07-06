@@ -74,9 +74,10 @@ def parser_ne(frase):
     dict = {}
     for token in frase_parsata.ents:
         dict[token.text] = [token.text, token.start_char, token.end_char, token.label_]
-        # print(f"text={token.text},inizio_stringa={token.start_char}, fine_stringa={token.end_char}, etichetta={token.label_}")
+        # print(f"text={token.text},inizio_stringa={token.start_char}, fine_stringa={token.end_char}, etichetta={
+        # token.label_}")
     for key, value in dict.items():
-        if ("PERSON" in value):
+        if "PERSON" in value:
             return key
     return None
 
@@ -99,8 +100,7 @@ def selectPoison(difficoltà):
         pozionicopia = pozioni
         pozione = random.choice(list(pozionicopia))
         if pozionicopia[pozione][0] == difficoltà:
-            pozioneScelta = {}
-            pozioneScelta[pozione] = pozionicopia[pozione]
+            pozioneScelta = {pozione: pozionicopia[pozione]}
             break
     return pozioneScelta
 
@@ -122,14 +122,14 @@ def selectQuestion():
 
 
 def checkScream(frase):
-    if (frase.isupper()):
-        print("\nNon urlare!\n")
+    if frase.isupper():
+        print("\nNot scream!\n")
         sleep(2)
 
 
 def checkQuestion(frase):
-    if ("?" in frase):
-        print("Le domande le faccio io!\n")
+    if "?" in frase:
+        print("I ask the questions!\n")
         sleep(2)
 
 
