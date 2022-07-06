@@ -77,7 +77,7 @@ while domande > domande_fatte:
     ingredienti_pozione = list(pozioneScelta_dict.values())[0][1]
 
     score += util.ask_question(nome_pozione, domande_fatte, ingredienti_pozione, ingredienti_indovinati, difficolta,
-                                 False)
+                               False)
 
     print(score)
     domande_fatte += 1
