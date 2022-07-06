@@ -218,3 +218,41 @@ def printAskIngredient(nIngredient):
     continue_proposition.setFeature(simplenlg.Feature.INTERROGATIVE_TYPE, simplenlg.InterrogativeType.WHAT_OBJECT)
 
     return realize_output(proposition) + "\n" + realize_output(continue_proposition)
+
+
+def printScore(score, casata_nome):
+    """I award 5 points to Gryffindor"""
+    lexicon = simplenlg.Lexicon.getDefaultLexicon()
+    nlgFactory = simplenlg.NLGFactory(lexicon)
+
+    np_casata = nlgFactory.createNounPhrase(casata_nome)
+    np_casata.addPreModifier("to")
+    np_points = nlgFactory.createNounPhrase("point")
+    np_points.addPreModifier(str(score))
+    proposition = nlgFactory.createClause("I", "award", np_points)
+    proposition.addComplement(np_casata)
+
+    if score > 1:
+        np_points.setPlural(True)
+
+    output = realize_output(proposition)
+    return output
+
+
+def tiChiedero():
+    lexicon = simplenlg.Lexicon.getDefaultLexicon()
+    nlgFactory = simplenlg.NLGFactory(lexicon)
+
+    '''I'll ask you for the ingredients of 3 potions, then I'll give you a grade.'''
+    np_ingredients = nlgFactory.createNounPhrase("the", "ingredient")
+    np_ingredients.setPlural(True)
+    np_ingredients.addModifier("of")
+    np_potion = nlgFactory.createNounPhrase("potion")
+    np_potion.setPlural(True)
+    np_potion.addPreModifier("3")
+    proposition = nlgFactory.createClause("I", "ask for", np_ingredients)
+    proposition.addComplement(np_potion)
+    proposition.setFeature(simplenlg.Feature.TENSE, simplenlg.Tense.FUTURE)
+
+    output = realize_output(proposition)
+    return output

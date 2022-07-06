@@ -1,3 +1,4 @@
+import simpleNLG
 import utilities as util
 from rapidfuzz.distance import Levenshtein
 import time
@@ -26,14 +27,11 @@ util.loading()
 
 # parte relativa al riconoscimento del nome
 risposta_nome = input("\n" + sp.ask_info("name") + "\n")
-casata_nome = input("\n" + sp.ask_info("house") + "\n")
-if len(risposta_nome.split()) == 1:
-    nome = risposta_nome
-else:
-    nome = util.parser_ne(risposta_nome)
+
+nome = util.parser_ne(risposta_nome)
 util.loading()
 util.checkFrase(risposta_nome)
-util.checkFrase(casata_nome)
+
 
 while nome is None:
     util.loading()
@@ -54,7 +52,7 @@ if haiStudiato:
     print("\nWell, now we will find out ..")
     time.sleep(1)
     # qui c'è da richiamare SimpleNLG e fargli crrare la frase nella print in inglese
-    print("Ti chiederò gli ingredienti di 3 pozioni, e poi ti darò un voto.\n")
+    print(simpleNLG.tiChiedero())
     time.sleep(2)
     util.loading()
 else:
@@ -64,6 +62,8 @@ else:
     time.sleep(2)
     exit()
 
+casata_nome = input("\n" + sp.ask_info("house") + "\n")
+util.checkFrase(casata_nome)
 domande = 2
 domande_fatte = 0
 
@@ -90,7 +90,7 @@ while domande > domande_fatte:
     difficolta = 3
 
 print('Good, we finished the exam')
-print('Scores')
+print(simpleNLG.printScore(score, casata_nome))
 
 # Frase score con casata e score, assegno tolgo
 # Frase ti chiederò sopra da fare con simple

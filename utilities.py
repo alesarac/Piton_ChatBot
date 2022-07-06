@@ -24,6 +24,7 @@ spacy.load('en_core_web_sm')
 # caricare la KB allenata in italiano
 def load_KB():
     global nlp
+    '''Ricordarsi di mettere la kb più grossa'''
     nlp = en_core_web_sm.load()
 
 
