@@ -1,4 +1,3 @@
-import simpleNLG
 import utilities as util
 from rapidfuzz.distance import Levenshtein
 import time
@@ -6,15 +5,10 @@ import simpleNLG as sp
 
 # TODO:
 
-# mettere una difficoltà alle pozioni (fatto)
-# implementare il criterio di similarità
-# implementare il voto
-# mettere un comando di uscita
-
 # carico la conoscenza base, le pozioni e setto la difficoltà di default
 util.load_KB()
 util.load_json()
-difficolta = 5
+difficolta = 3
 
 # decido, in base a che ora sia, se dire: "Buongiorno" o "Buonasera"
 if util.getTime() >= 18:
@@ -27,15 +21,15 @@ util.loading()
 
 # parte relativa al riconoscimento del nome
 risposta_nome = input("\n" + sp.ask_info("name") + "\n")
-
-nome = util.parser_ne(risposta_nome)
 util.loading()
 util.checkFrase(risposta_nome)
 
+nome = util.parser_ne(risposta_nome)
 
 while nome is None:
     util.loading()
     risposta_nome = input("\n" + sp.no_answer("your", "name") + "\n")
+    nome = util.parser_ne(risposta_nome)
     # controllo che la risposta è una frase, oppure il nome diretto
 print(f"\n{nome}" + ", " + sp.verb_subj("study", "you").lower())  # have you studied / did you study
 
@@ -77,23 +71,14 @@ while domande > domande_fatte:
     ingredienti_pozione = list(pozioneScelta_dict.values())[0][1]
     domande_pozione = len(ingredienti_pozione) + 1
 
-    while len(ingredienti_pozione) > 1 or domande_pozione > 1:
-        domande_pozione -= 1
-        print(str(domande_pozione) + 'domande pozione')
-        ingredienti_pozione, score_ = util.ask_question(nome_pozione, domande_fatte, ingredienti_pozione,
-                                                        ingredienti_indovinati, difficolta,
-                                                        False)
-        score += score_
-
+    ingredienti_pozione, score_ = util.ask_question(nome_pozione, domande_fatte, ingredienti_pozione,
+                                                    ingredienti_indovinati, difficolta,
+                                                    False)
     print(score)
     domande_fatte += 1
-    difficolta = 3
 
 print('Good, we finished the exam')
 print(simpleNLG.printScore(score, casata_nome))
-
-# Frase score con casata e score, assegno tolgo
-# Frase ti chiederò sopra da fare con simple
 
 '''
 if haiStudiato:

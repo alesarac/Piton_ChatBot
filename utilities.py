@@ -163,7 +163,8 @@ def ask_question(pozione, domande_fatte, ingredienti_pozione, ingredienti_indovi
             return ingredienti_pozione, 0
 
     risposta = str(get_ingredient(risposta, False))
-    ingredienti_pozione , is_correct= check_ingredient(risposta, ingredienti_pozione)
+    ingredienti_pozione, is_correct = check_ingredient(risposta, ingredienti_pozione)
+
     if is_correct:
         return ingredienti_pozione, difficolta * len(risposta.split())
     else:
@@ -174,6 +175,8 @@ def ask_question(pozione, domande_fatte, ingredienti_pozione, ingredienti_indovi
 ##### SPACY ####
 
 def get_ingredient(frase, aiuto):
+    if aiuto:
+        return
     sent_dict = {}
     frase_parsificata = nlp(frase)
     position = 'nsubj'
@@ -186,8 +189,6 @@ def get_ingredient(frase, aiuto):
         if chunk.root.dep_ == 'nsubj' or chunk.root.dep_ == 'attr':
             sent_dict[chunk.root.dep_] = chunk
     displayParser(frase_parsificata)
-    if aiuto:
-        return
     return sent_dict[position]
 
 
