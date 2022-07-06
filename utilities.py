@@ -131,7 +131,7 @@ def checkFrase(frase):
 
 def get_ingredient(frase):
     sent_dict = {}
-    frase_parsificata = nlp(frase.lower())
+    frase_parsificata = nlp(frase)
     position = 'nsubj'
     for chunk in frase_parsificata.noun_chunks:
         #print(str(chunk) + ' - ' + str(chunk.root.dep_))
