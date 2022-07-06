@@ -1,20 +1,23 @@
+import queue
+import threading
+from pathlib import Path
+import random
+from time import sleep
+
+import spacy
+from spacy import displacy
+from datetime import datetime
+# small KB
+import en_core_web_sm
 # big KB
 # import en_core_web_trf
 import json
-import random
-from datetime import datetime
-from pathlib import Path
-from time import sleep
-
-# small KB
-import en_core_web_sm
-import spacy
-from spacy import displacy
 
 imageCounter = 0
-nlp = spacy.load("en_core_web_sm")
+nlp = None
 # dizionario globale delle pozioni
 pozioni = {}
+spacy.load('en_core_web_sm')
 
 
 # caricare la KB allenata in italiano
@@ -37,8 +40,20 @@ def displayParser(frase):
     global imageCounter
     imageCounter = imageCounter + 1
     svg = displacy.render(frase, style="dep")
-    output_path = Path("results_spacy.svg")
+    output_path = Path("./images/dependency_plot{0}.svg".format(imageCounter))
     output_path.open("w", encoding="utf-8").write(svg)
+
+
+# serve per parsificare le dipendenze di una frase data in input
+def parser_dep(fraseIngrediente):
+    frase_parsata = nlp(fraseIngrediente)
+    dict = {}
+    for token in frase_parsata:
+        dict[token.text] = [token.dep_, token.head.text, [child for child in token.children]]
+        print(
+            f"text={token.text},dep={token.dep_}, head_text={token.head.text}, figli={[child for child in token.children]}")
+    displayParser(frase_parsata)
+    return dict
 
 
 # serve a parsificare solo le dipendenze di una frase
@@ -49,7 +64,6 @@ def parser_oly_dep(frase):
         dict[token.text] = token.dep_
         # print(f"text={token.text},dep={token.dep_}")
     # displayParser(frase_parsata)
-    print(dict)
     return dict
 
 
@@ -97,81 +111,21 @@ def selectQuestion():
 
 
 def checkScream(frase):
-    if frase.isupper():
+    if (frase.isupper()):
         print("\nNon urlare!\n")
         sleep(2)
 
 
 def checkQuestion(frase):
-    if "?" in frase:
+    if ("?" in frase):
         print("Le domande le faccio io!\n")
         sleep(2)
 
 
-# da fare: deve ritornare true se sono entrambi passati, nel caso, uno false deve ripetere la cosa
 def checkFrase(frase):
     checkScream(frase)
     checkQuestion(frase)
-    return True
 
-
-###### SPACY ######
-
-'''# serve per parsificare le dipendenze di una frase data in input
-def parser_dep(fraseIngrediente):
-    frase_parsificata = nlp(fraseIngrediente)
-    sent_dict = {}
-    for token in frase_parsificata:
-        print(token.text + ' : ' + str([token.dep_, token.head.text, [child for child in token.children]]))
-        sent_dict[token.text] = [token.dep_, [child for child in token.children]]
-
-    displayParser(frase_parsificata)
-    return sent_dict
-
-
-def get_ingredient(frase):
-    sent = parser_def(frase.lower())
-    print(sent)
-    for tok in sent:
-        # caso in cui l'ingrediente non è soggetto
-        if tok == 'ingredient' and sent[tok][0] == 'nsubj':
-            root_ingr = tok
-        # caso in cui il soggetto è l'ingrediente
-        elif tok == 'ingredient':
-            root_ingr = tok
-    return composed_ingredient(root_ingr, sent)
-'''
-
-
-def get_ingredient(frase):
-    sent_dict = {}
-    frase_parsificata = nlp(frase.lower())
-    position = 'nsubj'
-    for chunk in frase_parsificata.noun_chunks:
-        #print(str(chunk) + ' - ' + str(chunk.root.dep_))
-        # controlla dove si trova l'ingrediente, se è soggetto oppure complemento
-        if 'ingredient' in chunk.text and chunk.root.dep_ == 'nsubj':
-            position = 'attr'
-        if chunk.root.dep_ == 'nsubj' or chunk.root.dep_ == 'attr':
-            sent_dict[chunk.root.dep_] = chunk
-    displayParser(frase_parsificata)
-
-    return sent_dict[position]
-
-
-def wrong_ingredient():
-    sentences = [
-        'Is this Avanti un Altro?! I\'m not Paolo Bonolis!',
-        'Good answer... but it\'s wrong!',
-        'That\'s a pity, try again'
-    ]
-    print(random.choice(sentences))
-
-
-def check_ingredient(ingredient, list):
-    if ingredient in list:
-        return True
-    else:
-        wrong_ingredient()
 
 # funzione per timeout attesa input
+
