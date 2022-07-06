@@ -86,6 +86,9 @@ while domande > domande_fatte:
 print('Good, we finished the exam')
 print('Scores')
 
+# Frase score con casata e score, assegno tolgo
+# Frase ti chiederò sopra da fare con simple
+
 '''
 if haiStudiato:
     util.loading()
