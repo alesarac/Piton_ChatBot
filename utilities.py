@@ -138,13 +138,16 @@ def checkFrase(frase):
     checkQuestion(frase)
 
 
-def ask_question(pozione, domande_fatte, ingredienti_pozione, ingredienti_indovinati, difficolta, aiuto):
+def ask_question(pozione, domande_fatte, ingredienti_pozione, ingredienti_indovinati, difficolta, aiuto, again):
     if not aiuto:
         if domande_fatte == 0:
             risposta = input(
                 simpleNLG.printAskPotion(pozione, ingredienti_pozione, domande_fatte))
         else:
             risposta = input(simpleNLG.printAskPotion(pozione, ingredienti_pozione, domande_fatte))
+    elif again:
+        f = open("answers_memory.txt", "r")
+        print(f.read())
     else:
         ingrediente = random.choice(get_all_ingredients())
 
@@ -162,17 +165,23 @@ def ask_question(pozione, domande_fatte, ingredienti_pozione, ingredienti_indovi
             return ingredienti_pozione, 0
 
     risposta = str(get_ingredient(risposta, False))
-    ingredienti_pozione , is_correct= check_ingredient(risposta, ingredienti_pozione)
+    if risposta == '' or 'repeat' in risposta or 'again' in risposta:
+        ask_question(pozione, domande_fatte, ingredienti_pozione, ingredienti_indovinati, difficolta, False, True)
+    ingredienti_pozione, is_correct = check_ingredient(risposta, ingredienti_pozione)
+
     if is_correct:
         return ingredienti_pozione, difficolta * len(risposta.split())
     else:
         wrong_ingredient()
-        return ask_question(pozione, domande_fatte, ingredienti_pozione, ingredienti_indovinati, difficolta, True)
+        return ask_question(pozione, domande_fatte, ingredienti_pozione, ingredienti_indovinati, difficolta, True,
+                            False)
 
 
 ##### SPACY ####
 
 def get_ingredient(frase, aiuto):
+    if aiuto:
+        return
     sent_dict = {}
     frase_parsificata = nlp(frase)
     position = 'nsubj'
@@ -185,8 +194,6 @@ def get_ingredient(frase, aiuto):
         if chunk.root.dep_ == 'nsubj' or chunk.root.dep_ == 'attr':
             sent_dict[chunk.root.dep_] = chunk
     displayParser(frase_parsificata)
-    if aiuto:
-        return
     return sent_dict[position]
 
 
