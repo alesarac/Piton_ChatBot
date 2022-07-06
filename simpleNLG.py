@@ -165,15 +165,26 @@ def realize_output(phrase):
     return output
 
 
-def printAskPotion(potion):
+def printAskPotion(potion, ingredienti_mancanti, domande_fatte):
     lexicon = simplenlg.Lexicon.getDefaultLexicon()
     nlgFactory = simplenlg.NLGFactory(lexicon)
+    '''What is the ingredient'''
     np_potion = nlgFactory.createNounPhrase("the", potion)
-    np_ingredients = nlgFactory.createNounPhrase("ingredient")
-    np_ingredients.setPlural(True)
-    proposition = nlgFactory.createClause(np_ingredients, "compose", np_potion)
-    proposition.setFeature(simplenlg.Feature.INTERROGATIVE_TYPE, simplenlg.InterrogativeType.WHAT_SUBJECT)
-    proposition.setPlural(True)
+    np_ingredients = nlgFactory.createNounPhrase("the", "ingredient")
+    proposition = nlgFactory.createClause(np_ingredients, "be")
+    proposition.setFeature(simplenlg.Feature.INTERROGATIVE_TYPE, simplenlg.InterrogativeType.WHAT_OBJECT)
+
+    if ingredienti_mancanti == 1:
+        '''What is the last ingredient?'''
+        np_last = nlgFactory.createNounPhrase("last")
+        proposition
+    else:
+        '''What are the ingredients?'''
+        if domande_fatte != 1:
+            '''What are the ingredients of the potion?'''
+        else:
+            '''Let's start with the potion, + What is the ingredient?'''
+
     output = realize_output(proposition)
     print(output)
 
@@ -201,3 +212,18 @@ def printAskIngredient(nIngredient):
     continue_proposition.setFeature(simplenlg.Feature.FORM, simplenlg.Form.IMPERATIVE)
     output = realize_output(continue_proposition)
     print(" " + output)
+
+
+printAskPotion("Polisucco Potion", 3, 1)
+
+'''lexicon = simplenlg.Lexicon.getDefaultLexicon()
+nlgFactory = simplenlg.NLGFactory(lexicon)
+np_potion = nlgFactory.createNounPhrase("the", potion)
+np_ingredients = nlgFactory.createNounPhrase("ingredient")
+np_ingredients.setPlural(True)
+proposition = nlgFactory.createClause(np_ingredients, "be", np_potion)
+proposition.setFeature(simplenlg.Feature.INTERROGATIVE_TYPE, simplenlg.InterrogativeType.WHAT_SUBJECT)
+proposition.setPlural(True)
+output = realize_output(proposition)
+print(output)
+'''
