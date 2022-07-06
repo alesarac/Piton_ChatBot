@@ -46,7 +46,7 @@ if haiStudiato:
     print("\nWell, now we will find out ..")
     time.sleep(1)
     # qui c'è da richiamare SimpleNLG e fargli crrare la frase nella print in inglese
-    print(simpleNLG.tiChiedero())
+    print(sp.tiChiedero())
     time.sleep(2)
     util.loading()
 else:
@@ -78,7 +78,7 @@ while domande > domande_fatte:
     domande_fatte += 1
 
 print('Good, we finished the exam')
-print(simpleNLG.printScore(score, casata_nome))
+print(sp.printScore(score, casata_nome))
 
 '''
 if haiStudiato:
