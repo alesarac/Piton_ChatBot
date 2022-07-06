@@ -88,7 +88,6 @@ while domande > domande_fatte:
     ingredienti_pozione = list(pozioneScelta_dict.values())[0]
     if domande_fatte == 1:
         ingredienti_indovinati = []
-    print(ingredienti_indovinati)
 
     # cancello la difficoltà dalla lista di ingredienti
     ingredienti_pozione.pop(0)
@@ -105,14 +104,13 @@ while domande > domande_fatte:
     else:
         risposta = input(util.selectQuestion() + nome_pozione + ".\n")
 
-    if util.checkFrase(risposta):
-        util.get_ingredient(risposta)
+    #if util.checkFrase(risposta):
+    #print(util.get_ingredient(risposta))
 
     # da qua in poi è tutto da rivedere nel senso che c'è da capire come accettiamo una risposta la mia idea è di
     # accettare una risposta che abbia come soggetto l'ingrediente e basta, ma è fin troppo semplice come condizione
 
     domande_fatte = domande_fatte + 1
-
 
     difficolta = 3
 

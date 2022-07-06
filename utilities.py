@@ -40,7 +40,7 @@ def displayParser(frase):
     global imageCounter
     imageCounter = imageCounter + 1
     svg = displacy.render(frase, style="dep")
-    output_path = Path("./images/dependency_plot{0}.svg".format(imageCounter))
+    output_path = Path("result_spacy".format(imageCounter))
     output_path.open("w", encoding="utf-8").write(svg)
 
 
@@ -141,7 +141,6 @@ def get_ingredient(frase):
         if chunk.root.dep_ == 'nsubj' or chunk.root.dep_ == 'attr':
             sent_dict[chunk.root.dep_] = chunk
     displayParser(frase_parsificata)
-
     return sent_dict[position]
 
 
