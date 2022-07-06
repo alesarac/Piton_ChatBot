@@ -4,12 +4,13 @@ import time
 import simpleNLG as sp
 
 # TODO:
-#   Nomi alberto alessandro enrico
-#   Quando risponde e che sia coerente con la domanda
-#   Controllo della casata
-#   Score, in base al voto ti da un giudizio
-#   Memory
-#   Pulizia generale
+#   1)Nomi alberto alessandro enrico
+#   2)Quando risponde e che sia coerente con la domanda
+#   3)Controllo della casata
+#   4)Score, in base al voto ti da un giudizio
+#   5)Memory
+#   6)Pulizia generale
+#   7)Modificare l'interrogativa e fare controllo sulla negatività
 
 # carico la conoscenza base, le pozioni e setto la difficoltà di default
 util.load_KB()
