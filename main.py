@@ -76,7 +76,6 @@ while domande > domande_fatte:
     # scelgo la prima domanda (che è un dizionario (quindi il nostro fram è un dizionario che contiene una pozione alla volta) con solo una pozione all'interno
     # all'inizio "difficoltà" sarà quella di default, cioè 5
     # poi cambierà ad ogni cilo in base alle risposte date dall'utente
-    pozioneScelta_dict = {}
     # print("pozioneScelta_dict init: " + str(pozioneScelta_dict))
     pozioneScelta_dict = util.selectPoison(difficolta)
 
@@ -102,7 +101,7 @@ while domande > domande_fatte:
     # anche qua c'è da usare SimpleNLG per costruire ste frasi
     if domande_fatte == 0:
         risposta = input(
-            f"\nPartiamo con: {nome_pozione}\nQuali sono i suoi ingredienti?\n")
+            f"\nPartiamo con la pozione {nome_pozione}\nQuali sono i suoi ingredienti?\n")
     else:
         risposta = input(util.selectQuestion() + nome_pozione + ".\n")
 

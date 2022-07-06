@@ -127,5 +127,38 @@ def checkFrase(frase):
     checkQuestion(frase)
 
 
+##### SPACY ####
+
+def get_ingredient(frase):
+    sent_dict = {}
+    frase_parsificata = nlp(frase.lower())
+    position = 'nsubj'
+    for chunk in frase_parsificata.noun_chunks:
+        #print(str(chunk) + ' - ' + str(chunk.root.dep_))
+        # controlla dove si trova l'ingrediente, se è soggetto oppure complemento
+        if 'ingredient' in chunk.text and chunk.root.dep_ == 'nsubj':
+            position = 'attr'
+        if chunk.root.dep_ == 'nsubj' or chunk.root.dep_ == 'attr':
+            sent_dict[chunk.root.dep_] = chunk
+    displayParser(frase_parsificata)
+
+    return sent_dict[position]
+
+
+def wrong_ingredient():
+    sentences = [
+        'Is this Avanti un Altro?! I\'m not Paolo Bonolis!',
+        'Good answer... but it\'s wrong!',
+        'That\'s a pity, try again'
+    ]
+    print(random.choice(sentences))
+
+
+def check_ingredient(ingredient, list):
+    if ingredient in list:
+        return True
+    else:
+        wrong_ingredient()
+
 # funzione per timeout attesa input
 
