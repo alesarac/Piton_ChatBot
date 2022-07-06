@@ -6,15 +6,10 @@ import simpleNLG as sp
 
 # TODO:
 
-# mettere una difficoltà alle pozioni (fatto)
-# implementare il criterio di similarità
-# implementare il voto
-# mettere un comando di uscita
-
 # carico la conoscenza base, le pozioni e setto la difficoltà di default
 util.load_KB()
 util.load_json()
-difficolta = 5
+difficolta = 3
 
 # decido, in base a che ora sia, se dire: "Buongiorno" o "Buonasera"
 if util.getTime() >= 18:
@@ -79,10 +74,9 @@ while domande > domande_fatte:
 
     ingredienti_pozione, score_ = util.ask_question(nome_pozione, domande_fatte, ingredienti_pozione,
                                                     ingredienti_indovinati, difficolta,
-                                                    False, False)
+                                                    False)
     print(score)
     domande_fatte += 1
-    difficolta = 3
 
 print('Good, we finished the exam')
 print(simpleNLG.printScore(score, casata_nome))
