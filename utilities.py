@@ -40,7 +40,7 @@ def displayParser(frase):
     global imageCounter
     imageCounter = imageCounter + 1
     svg = displacy.render(frase, style="dep")
-    output_path = Path("result_spacy".format(imageCounter))
+    output_path = Path("result_spacy.svg".format(imageCounter))
     output_path.open("w", encoding="utf-8").write(svg)
 
 
@@ -75,7 +75,7 @@ def parser_ne(frase):
         dict[token.text] = [token.text, token.start_char, token.end_char, token.label_]
         # print(f"text={token.text},inizio_stringa={token.start_char}, fine_stringa={token.end_char}, etichetta={token.label_}")
     for key, value in dict.items():
-        if ("PERSON" in value):
+        if "PERSON" in value:
             return key
     return None
 
@@ -98,8 +98,7 @@ def selectPoison(difficoltà):
         pozionicopia = pozioni
         pozione = random.choice(list(pozionicopia))
         if pozionicopia[pozione][0] == difficoltà:
-            pozioneScelta = {}
-            pozioneScelta[pozione] = pozionicopia[pozione]
+            pozioneScelta = {pozione: pozionicopia[pozione]}
             break
     return pozioneScelta
 
@@ -127,7 +126,7 @@ def checkScream(frase):
 
 
 def checkQuestion(frase):
-    if ("?" in frase):
+    if "?" in frase:
         print("Le domande le faccio io!\n")
         sleep(2)
 
@@ -148,20 +147,22 @@ def ask_question(pozione, domande_fatte, ingredienti_pozione, ingredienti_indovi
         ingrediente = random.choice(get_all_ingredients())
 
         risposta_giusta = 'no'
-        if ingrediente in ingredienti_pozione:
+        if ingrediente in [ingr.lower() for ingr in ingredienti_pozione]:
             risposta_giusta = 'yes'
 
         risposta = str(input(ingrediente + ' is an ingredient of ' + pozione + '?\n')).lower()
         if risposta == risposta_giusta:
+            print('Correct')
             score = difficolta * len(ingrediente.split()) / 2
-            return int(score)
+            return ingredienti_pozione, float(score)
         else:
-            return 0
+            wrong_ingredient()
+            return ingredienti_pozione, 0
 
     risposta = str(get_ingredient(risposta, False))
-    if check_ingredient(risposta, ingredienti_pozione,
-                        ingredienti_indovinati):
-        return difficolta * len(risposta.split())
+    ingredienti_pozione , is_correct= check_ingredient(risposta, ingredienti_pozione)
+    if is_correct:
+        return ingredienti_pozione, difficolta * len(risposta.split())
     else:
         wrong_ingredient()
         return ask_question(pozione, domande_fatte, ingredienti_pozione, ingredienti_indovinati, difficolta, True)
@@ -174,6 +175,7 @@ def get_ingredient(frase, aiuto):
     frase_parsificata = nlp(frase)
     position = 'nsubj'
     for chunk in frase_parsificata.noun_chunks:
+        print(chunk, chunk.root.dep_)
         # print(str(chunk) + ' - ' + str(chunk.root.dep_))
         # controlla dove si trova l'ingrediente, se è soggetto oppure complemento
         if 'ingredient' in chunk.text and chunk.root.dep_ == 'nsubj':
@@ -196,14 +198,13 @@ def wrong_ingredient():
     return
 
 
-def check_ingredient(ingrediente, ingredienti, indovinati):
+def check_ingredient(ingrediente, ingredienti):
     print(ingrediente, ingredienti)
     if ingrediente in ingredienti:
         print('trovato')
         ingredienti.remove(ingrediente)
-        indovinati.append(ingrediente)
-        return True
+        return ingredienti, True
     else:
-        return False
+        return ingredienti, False
 
 # funzione per timeout attesa input
