@@ -97,11 +97,21 @@ def selectPoison(difficoltà):
     while True:
         pozionicopia = pozioni
         pozione = random.choice(list(pozionicopia))
-        if (pozionicopia[pozione][0] == difficoltà):
+        if pozionicopia[pozione][0] == difficoltà:
             pozioneScelta = {}
             pozioneScelta[pozione] = pozionicopia[pozione]
             break
     return pozioneScelta
+
+
+def get_all_ingredients():
+    load_json()
+    ingredients = []
+    for p in pozioni:
+        for ingredient in pozioni[p][1]:
+            if ingredient not in ingredients:
+                ingredients.append(ingredient.lower())
+    return ingredients
 
 
 def selectQuestion():
@@ -127,20 +137,52 @@ def checkFrase(frase):
     checkQuestion(frase)
 
 
+def ask_question(pozione, domande_fatte, ingredienti_pozione, ingredienti_indovinati, difficolta, aiuto):
+    if not aiuto:
+        if domande_fatte == 0:
+            risposta = input(
+                f"\nPartiamo con la pozione {pozione}\nQuali sono i suoi ingredienti?\n")
+        else:
+            risposta = input(selectQuestion() + pozione + ".\n")
+    else:
+        ingrediente = random.choice(get_all_ingredients())
+
+        risposta_giusta = 'no'
+        if ingrediente in ingredienti_pozione:
+            risposta_giusta = 'yes'
+
+        risposta = str(input(ingrediente + ' is an ingredient of ' + pozione + '?\n')).lower()
+        if risposta == risposta_giusta:
+            score = difficolta * len(ingrediente.split()) / 2
+            return int(score)
+        else:
+            return 0
+
+    risposta = str(get_ingredient(risposta, False))
+    if check_ingredient(risposta, ingredienti_pozione,
+                        ingredienti_indovinati):
+        return difficolta * len(risposta.split())
+    else:
+        wrong_ingredient()
+        return ask_question(pozione, domande_fatte, ingredienti_pozione, ingredienti_indovinati, difficolta, True)
+
+
 ##### SPACY ####
 
-def get_ingredient(frase):
+def get_ingredient(frase, aiuto):
     sent_dict = {}
     frase_parsificata = nlp(frase)
     position = 'nsubj'
     for chunk in frase_parsificata.noun_chunks:
-        #print(str(chunk) + ' - ' + str(chunk.root.dep_))
+        # print(str(chunk) + ' - ' + str(chunk.root.dep_))
         # controlla dove si trova l'ingrediente, se è soggetto oppure complemento
         if 'ingredient' in chunk.text and chunk.root.dep_ == 'nsubj':
             position = 'attr'
         if chunk.root.dep_ == 'nsubj' or chunk.root.dep_ == 'attr':
             sent_dict[chunk.root.dep_] = chunk
     displayParser(frase_parsificata)
+    if aiuto:
+        return
     return sent_dict[position]
 
 
@@ -151,13 +193,17 @@ def wrong_ingredient():
         'That\'s a pity, try again'
     ]
     print(random.choice(sentences))
+    return
 
 
-def check_ingredient(ingredient, list):
-    if ingredient in list:
+def check_ingredient(ingrediente, ingredienti, indovinati):
+    print(ingrediente, ingredienti)
+    if ingrediente in ingredienti:
+        print('trovato')
+        ingredienti.remove(ingrediente)
+        indovinati.append(ingrediente)
         return True
     else:
-        wrong_ingredient()
+        return False
 
 # funzione per timeout attesa input
-

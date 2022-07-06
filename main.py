@@ -68,30 +68,23 @@ domande = 3
 domande_fatte = 0
 
 ingredienti_indovinati = []
+all_ingredienti = util.get_all_ingredients()
+score = 0
 
 while domande > domande_fatte:
+    pozioneScelta_dict = util.selectPoison(difficolta)
+    nome_pozione = str(list(pozioneScelta_dict.keys())[0])
+    ingredienti_pozione = list(pozioneScelta_dict.values())[0][1]
 
+    score += util.ask_question(nome_pozione, domande_fatte, ingredienti_pozione, ingredienti_indovinati, difficolta,
+                                 False)
 
-
-
-    domande_fatte = domande_fatte + 1
-
+    print(score)
+    domande_fatte += 1
     difficolta = 3
 
 print('Good, we finished the exam')
 print('Scores')
-
-
-
-
-
-
-
-
-
-
-
-
 
 '''
 if haiStudiato:
@@ -140,11 +133,7 @@ else:
 
    # la prima volta dice "Partiamo" poi dopo cicla su delle frasi diverse
    # anche qua c'è da usare SimpleNLG per costruire ste frasi
-   if domande_fatte == 0:
-       risposta = input(
-           f"\nPartiamo con la pozione {nome_pozione}\nQuali sono i suoi ingredienti?\n")
-   else:
-       risposta = input(util.selectQuestion() + nome_pozione + ".\n")
+   
        
        
     #if util.checkFrase(risposta):
