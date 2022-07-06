@@ -69,13 +69,25 @@ while domande > domande_fatte:
     pozioneScelta_dict = util.selectPoison(difficolta)
     nome_pozione = str(list(pozioneScelta_dict.keys())[0])
     ingredienti_pozione = list(pozioneScelta_dict.values())[0][1]
-    domande_pozione = len(ingredienti_pozione) + 1
+    domande_pozione = 0
 
-    ingredienti_pozione, score_ = util.ask_question(nome_pozione, domande_fatte, ingredienti_pozione,
-                                                    ingredienti_indovinati, difficolta,
-                                                    False)
+    # caso1: dico tutte gli ingr corretti, caso2: ti ho fatto ningred +1
+
+    while len(ingredienti_pozione) > 0 and domande_pozione < len(ingredienti_pozione) + 1:
+        print('ingr pozione --------------- ' + str(ingredienti_pozione))
+        print('domande pozione ------------ ' + str(domande_pozione))
+        ingredienti_pozione_, domande_pozione_, score_ = util.ask_question(nome_pozione, domande_fatte,
+                                                                           ingredienti_pozione,
+                                                                           ingredienti_indovinati, difficolta,
+                                                                           domande_pozione,
+                                                                           False)
+        domande_pozione = domande_pozione_
+        ingredienti_pozione = ingredienti_pozione_
+        score += score_
+
     print(score)
     domande_fatte += 1
+    difficolta -= 1
 
 print('Good, we finished the exam')
 print(sp.printScore(score, casata_nome))

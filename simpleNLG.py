@@ -162,7 +162,7 @@ def verb_subj(verb, subject):
 def realize_output(phrase):
     realizer = simplenlg.Realiser()
     output = realizer.realiseSentence(phrase)
-    return output
+    return output + '\n'
 
 
 def printAskPotion(potion, ingredienti_mancanti, domande_fatte):
@@ -180,14 +180,14 @@ def printAskPotion(potion, ingredienti_mancanti, domande_fatte):
     else:
         '''What are the ingredients?'''
         np_ingredients.setPlural(True)
-        if domande_fatte != 1:
+        if domande_fatte != 0:
             '''What are the ingredients of the potion?'''
             np_potion.setSpecifier("of")
             np_ingredients.addModifier(np_potion)
         else:
             '''Let's start with the potion, + What is the ingredient?'''
             output = realize_output(proposition)
-            print("Let's start with the potion, " + output.lower())
+            print("Let's start with the " + potion + ' ' + output.lower())
 
     return realize_output(proposition)
 
@@ -217,7 +217,7 @@ def printAskIngredient(nIngredient):
     continue_proposition = nlgFactory.createClause(np_ingredients, "be")
     continue_proposition.setFeature(simplenlg.Feature.INTERROGATIVE_TYPE, simplenlg.InterrogativeType.WHAT_OBJECT)
 
-    return realize_output(proposition) + "\n" + realize_output(continue_proposition)
+    return realize_output(proposition) + realize_output(continue_proposition)
 
 
 def printScore(score, casata_nome):

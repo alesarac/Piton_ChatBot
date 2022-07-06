@@ -13,6 +13,7 @@ import en_core_web_sm
 # import en_core_web_trf
 import json
 import simpleNLG
+import utilities
 
 imageCounter = 0
 nlp = None
@@ -130,7 +131,7 @@ def checkScream(frase):
 
 def checkQuestion(frase):
     if "?" in frase:
-        print("I ask the questions!\n")
+        print("I'm asking the questions, not you!\n")
         sleep(2)
 
 
@@ -139,7 +140,8 @@ def checkFrase(frase):
     checkQuestion(frase)
 
 
-def ask_question(pozione, domande_fatte, ingredienti_pozione, ingredienti_indovinati, difficolta, aiuto):
+def ask_question(pozione, domande_fatte, ingredienti_pozione, ingredienti_indovinati, difficolta, domande_pozione,
+                 aiuto):
     if not aiuto:
         if domande_fatte == 0:
             risposta = input(
@@ -157,19 +159,31 @@ def ask_question(pozione, domande_fatte, ingredienti_pozione, ingredienti_indovi
         if risposta == risposta_giusta:
             print('Correct')
             score = difficolta * len(ingrediente.split()) / 2
-            return ingredienti_pozione, float(score)
+            return ingredienti_pozione, domande_pozione + 1, float(score)
         else:
             wrong_ingredient()
-            return ingredienti_pozione, 0
+            return ingredienti_pozione, domande_pozione + 2, 0
 
-    risposta = str(get_ingredient(risposta, False))
+    if 'ingredient' in risposta:
+        risposta = str(get_ingredient(risposta, False))
+
+    else:
+        if risposta in ingredienti_pozione:
+            ingredienti_pozione.remove(risposta)
+            return ingredienti_pozione, domande_pozione + 1, difficolta * len(risposta.split())
+        else:
+            utilities.wrong_ingredient()
+            return ask_question(pozione, domande_fatte, ingredienti_pozione, ingredienti_indovinati, difficolta,
+                                domande_pozione, True)
+
     ingredienti_pozione, is_correct = check_ingredient(risposta, ingredienti_pozione)
 
     if is_correct:
-        return ingredienti_pozione, difficolta * len(risposta.split())
+        return ingredienti_pozione, domande_pozione + 1, difficolta * len(risposta.split())
     else:
         wrong_ingredient()
-        return ask_question(pozione, domande_fatte, ingredienti_pozione, ingredienti_indovinati, difficolta, True)
+        return ask_question(pozione, domande_fatte, ingredienti_pozione, ingredienti_indovinati, difficolta,
+                            domande_pozione, True)
 
 
 ##### SPACY ####
@@ -181,7 +195,6 @@ def get_ingredient(frase, aiuto):
     frase_parsificata = nlp(frase)
     position = 'nsubj'
     for chunk in frase_parsificata.noun_chunks:
-        print(chunk, chunk.root.dep_)
         # print(str(chunk) + ' - ' + str(chunk.root.dep_))
         # controlla dove si trova l'ingrediente, se è soggetto oppure complemento
         if 'ingredient' in chunk.text and chunk.root.dep_ == 'nsubj':
@@ -194,9 +207,9 @@ def get_ingredient(frase, aiuto):
 
 def wrong_ingredient():
     sentences = [
-        'Is this Avanti un Altro?! I\'m not Paolo Bonolis!',
-        'Good answer... but it\'s wrong!',
-        'That\'s a pity, try again'
+        'Is this Avanti un Altro?! I\'m not Paolo Bonolis!\n',
+        'Good answer... but it\'s wrong!\n',
+        'That\'s a pity, try again\n'
     ]
     print(random.choice(sentences))
     return
