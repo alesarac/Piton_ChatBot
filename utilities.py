@@ -24,6 +24,7 @@ spacy.load('en_core_web_sm')
 # caricare la KB allenata in italiano
 def load_KB():
     global nlp
+    '''Ricordarsi di mettere la kb più grossa'''
     nlp = en_core_web_sm.load()
 
 
@@ -138,16 +139,13 @@ def checkFrase(frase):
     checkQuestion(frase)
 
 
-def ask_question(pozione, domande_fatte, ingredienti_pozione, ingredienti_indovinati, difficolta, aiuto, again):
+def ask_question(pozione, domande_fatte, ingredienti_pozione, ingredienti_indovinati, difficolta, aiuto):
     if not aiuto:
         if domande_fatte == 0:
             risposta = input(
                 simpleNLG.printAskPotion(pozione, ingredienti_pozione, domande_fatte))
         else:
             risposta = input(simpleNLG.printAskPotion(pozione, ingredienti_pozione, domande_fatte))
-    elif again:
-        f = open("answers_memory.txt", "r")
-        print(f.read())
     else:
         ingrediente = random.choice(get_all_ingredients())
 
@@ -165,16 +163,13 @@ def ask_question(pozione, domande_fatte, ingredienti_pozione, ingredienti_indovi
             return ingredienti_pozione, 0
 
     risposta = str(get_ingredient(risposta, False))
-    if risposta == '' or 'repeat' in risposta or 'again' in risposta:
-        ask_question(pozione, domande_fatte, ingredienti_pozione, ingredienti_indovinati, difficolta, False, True)
     ingredienti_pozione, is_correct = check_ingredient(risposta, ingredienti_pozione)
 
     if is_correct:
         return ingredienti_pozione, difficolta * len(risposta.split())
     else:
         wrong_ingredient()
-        return ask_question(pozione, domande_fatte, ingredienti_pozione, ingredienti_indovinati, difficolta, True,
-                            False)
+        return ask_question(pozione, domande_fatte, ingredienti_pozione, ingredienti_indovinati, difficolta, True)
 
 
 ##### SPACY ####
