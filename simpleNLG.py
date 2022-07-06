@@ -176,14 +176,18 @@ def printAskPotion(potion, ingredienti_mancanti, domande_fatte):
 
     if ingredienti_mancanti == 1:
         '''What is the last ingredient?'''
-        np_last = nlgFactory.createNounPhrase("last")
-        proposition
+        np_ingredients.addModifier("last")
     else:
         '''What are the ingredients?'''
+        np_ingredients.setPlural(True)
         if domande_fatte != 1:
             '''What are the ingredients of the potion?'''
+            np_potion.setSpecifier("of")
+            np_ingredients.addModifier(np_potion)
         else:
             '''Let's start with the potion, + What is the ingredient?'''
+            output = realize_output(proposition)
+            print("Let's start with the potion, " + output.lower())
 
     output = realize_output(proposition)
     print(output)
@@ -192,6 +196,7 @@ def printAskPotion(potion, ingredienti_mancanti, domande_fatte):
 def printAskIngredient(nIngredient):
     lexicon = simplenlg.Lexicon.getDefaultLexicon()
     nlgFactory = simplenlg.NLGFactory(lexicon)
+
     np_number = nlgFactory.createNounPhrase(str(nIngredient))
     np_ingredients = nlgFactory.createNounPhrase("ingredient")
     np_missing = nlgFactory.createNounPhrase("missing")
@@ -203,27 +208,18 @@ def printAskIngredient(nIngredient):
         np_missing.setPlural(True)
 
     output = realize_output(proposition)
+
     print(output)
     np_ingr = nlgFactory.createNounPhrase("ingredient")
     if nIngredient > 1:
         np_ingr.setPlural(True)
 
-    continue_proposition = nlgFactory.createClause("you", "nominate", np_ingr)
-    continue_proposition.setFeature(simplenlg.Feature.FORM, simplenlg.Form.IMPERATIVE)
+    '''What are the other ingredients?'''
+    np_ingredients = nlgFactory.createNounPhrase("the", "ingredient")
+    np_ingredients.setPlural(True)
+    np_ingredients.addModifier("other")
+    continue_proposition = nlgFactory.createClause(np_ingredients, "be")
+    continue_proposition.setFeature(simplenlg.Feature.INTERROGATIVE_TYPE, simplenlg.InterrogativeType.WHAT_OBJECT)
+
     output = realize_output(continue_proposition)
-    print(" " + output)
-
-
-printAskPotion("Polisucco Potion", 3, 1)
-
-'''lexicon = simplenlg.Lexicon.getDefaultLexicon()
-nlgFactory = simplenlg.NLGFactory(lexicon)
-np_potion = nlgFactory.createNounPhrase("the", potion)
-np_ingredients = nlgFactory.createNounPhrase("ingredient")
-np_ingredients.setPlural(True)
-proposition = nlgFactory.createClause(np_ingredients, "be", np_potion)
-proposition.setFeature(simplenlg.Feature.INTERROGATIVE_TYPE, simplenlg.InterrogativeType.WHAT_SUBJECT)
-proposition.setPlural(True)
-output = realize_output(proposition)
-print(output)
-'''
+    print(output)
