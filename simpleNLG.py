@@ -189,8 +189,7 @@ def printAskPotion(potion, ingredienti_mancanti, domande_fatte):
             output = realize_output(proposition)
             print("Let's start with the potion, " + output.lower())
 
-    output = realize_output(proposition)
-    print(output)
+    return realize_output(proposition)
 
 
 def printAskIngredient(nIngredient):
@@ -207,9 +206,6 @@ def printAskIngredient(nIngredient):
         proposition.setPlural(True)
         np_missing.setPlural(True)
 
-    output = realize_output(proposition)
-
-    print(output)
     np_ingr = nlgFactory.createNounPhrase("ingredient")
     if nIngredient > 1:
         np_ingr.setPlural(True)
@@ -221,5 +217,4 @@ def printAskIngredient(nIngredient):
     continue_proposition = nlgFactory.createClause(np_ingredients, "be")
     continue_proposition.setFeature(simplenlg.Feature.INTERROGATIVE_TYPE, simplenlg.InterrogativeType.WHAT_OBJECT)
 
-    output = realize_output(continue_proposition)
-    print(output)
+    return realize_output(proposition) + "\n" + realize_output(continue_proposition)

@@ -12,6 +12,7 @@ import en_core_web_sm
 # big KB
 # import en_core_web_trf
 import json
+import simpleNLG
 
 imageCounter = 0
 nlp = None
@@ -40,7 +41,7 @@ def displayParser(frase):
     global imageCounter
     imageCounter = imageCounter + 1
     svg = displacy.render(frase, style="dep")
-    output_path = Path("result_spacy".format(imageCounter))
+    output_path = Path("result_spacy.svg".format(imageCounter))
     output_path.open("w", encoding="utf-8").write(svg)
 
 
@@ -141,9 +142,9 @@ def ask_question(pozione, domande_fatte, ingredienti_pozione, ingredienti_indovi
     if not aiuto:
         if domande_fatte == 0:
             risposta = input(
-                f"\nPartiamo con la pozione {pozione}\nQuali sono i suoi ingredienti?\n")
+                simpleNLG.printAskPotion(pozione, ingredienti_pozione, domande_fatte))
         else:
-            risposta = input(selectQuestion() + pozione + ".\n")
+            risposta = input(simpleNLG.printAskPotion(pozione, ingredienti_pozione, domande_fatte))
     else:
         ingrediente = random.choice(get_all_ingredients())
 
@@ -159,9 +160,14 @@ def ask_question(pozione, domande_fatte, ingredienti_pozione, ingredienti_indovi
             return 0
 
     risposta = str(get_ingredient(risposta, False))
+    trick = random.choice([True, False])
     if check_ingredient(risposta, ingredienti_pozione,
                         ingredienti_indovinati):
-        return difficolta * len(risposta.split())
+        if trick:
+            if input("Are you sure?") == "yes":
+                return difficolta * len(risposta.split())
+            else:
+                return 0
     else:
         wrong_ingredient()
         return ask_question(pozione, domande_fatte, ingredienti_pozione, ingredienti_indovinati, difficolta, True)
@@ -172,6 +178,7 @@ def ask_question(pozione, domande_fatte, ingredienti_pozione, ingredienti_indovi
 def get_ingredient(frase, aiuto):
     sent_dict = {}
     frase_parsificata = nlp(frase)
+    print(frase_parsificata)
     position = 'nsubj'
     for chunk in frase_parsificata.noun_chunks:
         # print(str(chunk) + ' - ' + str(chunk.root.dep_))
@@ -199,7 +206,8 @@ def wrong_ingredient():
 def check_ingredient(ingrediente, ingredienti, indovinati):
     print(ingrediente, ingredienti)
     if ingrediente in ingredienti:
-        print('trovato')
+        print("Correct!\n")
+        simpleNLG.printAskIngredient(len(ingredienti))
         ingredienti.remove(ingrediente)
         indovinati.append(ingrediente)
         return True
