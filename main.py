@@ -77,23 +77,15 @@ while domande > domande_fatte:
     ingredienti_pozione = list(pozioneScelta_dict.values())[0][1]
     domande_pozione = len(ingredienti_pozione) + 1
 
-    while len(ingredienti_pozione) > 1 or domande_pozione > 1:
-        domande_pozione -= 1
-        print(str(domande_pozione) + 'domande pozione')
-        ingredienti_pozione, score_ = util.ask_question(nome_pozione, domande_fatte, ingredienti_pozione,
-                                                        ingredienti_indovinati, difficolta,
-                                                        False)
-        score += score_
-
+    ingredienti_pozione, score_ = util.ask_question(nome_pozione, domande_fatte, ingredienti_pozione,
+                                                    ingredienti_indovinati, difficolta,
+                                                    False, False)
     print(score)
     domande_fatte += 1
     difficolta = 3
 
 print('Good, we finished the exam')
 print('Scores')
-
-# Frase score con casata e score, assegno tolgo
-# Frase ti chiederò sopra da fare con simple
 
 '''
 if haiStudiato:

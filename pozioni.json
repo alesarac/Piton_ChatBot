@@ -1,54 +1,25 @@
 {
-   "Pozione Sputafuoco":[
+   "Fire breathing potion":[
       1,
-      ["Menta",
-      "Lavanda",
-      "Polvere di Corno di drago",
-      "Semi di Fuoco",
-      "Ramoscelli di Valeriana"]
+      ["mint",
+      "lavander",
+      "dragon's horn powder",
+      "fire seeds",
+      "valerian twigs"]
    ],
    "Felix Felicis":[
-      4,
-      ["Uovo di Ashwinder",
-      "Bulbo di Squill",
-      "Tentacolo di Murtlap",
-      "Tintura di timo",
-      "Guscio d'uovo di Occamy",
-      "Ruta comune in polvere"]
+      3,
+      ["Ashwinder's egg",
+      "squill bulb",
+      "Murtlap's tentacle",
+      "thyme tincture",
+      "Occamy's egg shell",
+      "common rue powder"]
    ],
-   "Pozione 3":[
-      1,
-      ["Piume di Jobberknoll",
-      "Salvia in polvere",
-      "Mandragola in umido",
-      "Bucaneve"]
-   ],
-   "Pozione 4":[
+   "Memory potion":[
       2,
-      ["Piume di Jobberknoll",
-      "Salvia in polvere",
-      "Mandragola in umido",
-      "Bucaneve"]
-   ],
-   "Pozione 5":[
-      3,
-      ["Piume di Jobberknoll",
-      "Salvia in polvere",
-      "Mandragola in umido",
-      "Bucaneve"]
-   ],
-   "Pozione 6":[
-      5,
-     ["Piume di Jobberknoll",
-      "Salvia in polvere",
-      "Mandragola in umido",
-      "Bucaneve"]
-   ],
-   "Pozione 7":[
-      3,
-      ["Piume di Jobberknoll",
-      "Salvia in polvere",
-      "Mandragola in umido",
-      "Bucaneve"]
+      ["Jobberknoll's feathers",
+      "powder sage",
+      "snowdrop"]
    ]
 }
