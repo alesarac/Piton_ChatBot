@@ -1,5 +1,4 @@
 import utilities as util
-from rapidfuzz.distance import Levenshtein
 import time
 import simpleNLG as sp
 
@@ -11,12 +10,16 @@ import simpleNLG as sp
 #   6)Pulizia generale
 #   7)Modificare l'interrogativa e fare controllo sulla negatività
 
-# carico la conoscenza base, le pozioni e setto la difficoltà di default
+'''
+    Carico la conoscenza base, le pozioni e setto la difficoltà di default
+'''
 util.load_KB()
 util.load_json()
 difficolta = 3
 
-# decido, in base a che ora sia, se dire: "Buongiorno" o "Buonasera"
+'''
+    Decido, in base a che ora sia, se dire: "Buongiorno" o "Buonasera"
+'''
 if util.getTime() >= 18:
     print(sp.build_phrase("Good evening"))
 else:
@@ -25,7 +28,9 @@ time.sleep(1)
 print(sp.build_phrase_complete("I", "be", "Severus Piton"))
 util.loading()
 
-# parte relativa al riconoscimento del nome
+'''
+    Parte relativa al riconoscimento del nome
+'''
 risposta_nome = input("\n" + sp.ask_info("name") + "\n")
 util.loading()
 util.checkFrase(risposta_nome)
@@ -38,10 +43,11 @@ while nome is None:
     util.loading()
     risposta_nome = input("\n" + sp.no_answer("your", "name") + "\n")
     nome = util.parser_ne(risposta_nome)
-    # controllo che la risposta è una frase, oppure il nome diretto
+    '''controllo che la risposta è una frase, oppure il nome diretto'''
 
-# Parte relativa al riconosciemento della casata
-
+'''
+    Parte relativa al riconosciemento della casata
+'''
 casata_nome = input("\n" + sp.ask_info("house") + "\n")
 casata_nome = util.answer_casata(casata_nome)
 
@@ -56,16 +62,13 @@ else:
 
 if haiStudiato:
     util.loading()
-    # qui c'è da richiamare SimpleNLG e fargli creare la frase nella print in inglese
     print("\nWell, now we will find out ..")
     time.sleep(1)
-    # qui c'è da richiamare SimpleNLG e fargli crrare la frase nella print in inglese
     print(sp.start_exam())
     time.sleep(2)
     util.loading()
 else:
     util.loading()
-    # qui c'è da richiamare SimpleNLG e fargli crrare la frase nella print in inglese
     print("\nVery bad, see you next time!")
     time.sleep(2)
     exit()
@@ -83,8 +86,6 @@ while domande > domande_fatte:
     ingredienti_pozione = list(pozioneScelta_dict.values())[0][1]
     domande_pozione = 0
 
-    # caso1: dico tutte gli ingr corretti, caso2: ti ho fatto ningred +1
-
     while len(ingredienti_pozione) > 0 and domande_pozione < len(ingredienti_pozione) + 1:
         print(str(ingredienti_pozione))
 
@@ -100,13 +101,12 @@ while domande > domande_fatte:
     domande_fatte += 1
     difficolta -= 1
 
-print('Good, we finished the exam')
+print('Good, we finished the exam\n')
 
 if score == 0:
-    print("Hai fatto una figura di merda, il tuo score è: " + sp.printScore(score, casata_nome))
+    print("You got it all wrong, your score is: " + sp.printScore(score, casata_nome) + "\n")
 elif 1 < score < 5:
-    print("Potevi fare di meglio")
+    print("You could have done better, your score is: " + sp.printScore(score, casata_nome) + "\n")
 else:
-    print("Bravo sei andato bene")
+    print("You have been very good, your score is: " + sp.printScore(score, casata_nome) + "\n")
 
-print(sp.printScore(score, casata_nome))

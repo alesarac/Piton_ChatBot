@@ -1,8 +1,6 @@
-import simplenlg
-
-
 # inizializza la phrase con la libreria SimpleNLG
-import utilities
+import utilities as util
+import simplenlg
 
 
 def init():
@@ -73,7 +71,7 @@ def relalize_output(phrase):
     return output
 
 
-import simplenlg
+
 
 
 # inizializza la phrase con la libreria SimpleNLG
@@ -191,9 +189,9 @@ def printAskPotion(potion, ingredienti_mancanti, domande_fatte):
             '''Let's start with the potion, + What is the ingredient?'''
             output = realize_output(proposition)
             print("Let's start with the " + potion + ' ' + output.lower())
-            utilities.write_question("Let's start with the " + potion + ', ' + output.lower())
+            util.write_question("Let's start with the " + potion + ', ' + output.lower())
     sentence = realize_output(proposition)
-    utilities.write_question(sentence)
+    util.write_question(sentence)
     return sentence
 
 
@@ -223,7 +221,7 @@ def printAskIngredient(nIngredient):
     continue_proposition.setFeature(simplenlg.Feature.INTERROGATIVE_TYPE, simplenlg.InterrogativeType.WHAT_OBJECT)
 
     sentence = realize_output(proposition) + realize_output(continue_proposition)
-    utilities.write_question(sentence)
+    util.write_question(sentence)
     return sentence
 
 

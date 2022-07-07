@@ -1,6 +1,4 @@
 import pickle
-import queue
-import threading
 from pathlib import Path
 import random
 from time import sleep
@@ -13,12 +11,11 @@ import en_core_web_sm
 # big KB
 # import en_core_web_trf
 import json
-import simpleNLG
-import utilities
 import simpleNLG as sp
 
 imageCounter = 0
 nlp = None
+
 # dizionario globale delle pozioni
 pozioni = {}
 spacy.load('en_core_web_sm')
@@ -30,21 +27,23 @@ with open('memory/answers.txt', 'w+') as f:
     f.write('')
 
 
-# caricare la KB allenata in italiano
 def load_KB():
     global nlp
     '''Ricordarsi di mettere la kb più grossa'''
     nlp = en_core_web_sm.load()
 
 
-# per caricare il JSON con le pozioni
+# Caqricamento JSON con le pozioni
 def load_json():
     global pozioni
     with open('pozioni.json') as json_file:
         pozioni = json.load(json_file)
 
 
-##########FUNZIONI DI UTILITA'######################################
+'''
+    Funzioni Utility
+'''
+
 
 # serve per creare l'immagine del parsing
 def displayParser(frase):
@@ -73,8 +72,6 @@ def parser_oly_dep(frase):
     dict = {}
     for token in frase_parsata:
         dict[token.text] = token.dep_
-        # print(f"text={token.text},dep={token.dep_}")
-    # displayParser(frase_parsata)
     return dict
 
 
@@ -87,19 +84,11 @@ def parser_ne(frase):
         dict = {}
         for token in frase_parsata.ents:
             dict[token.text] = [token.text, token.start_char, token.end_char, token.label_]
-            # print(f"text={token.text},inizio_stringa={token.start_char}, fine_stringa={token.end_char}, etichetta={
-            # token.label_}")
         for key, value in dict.items():
             print(dict.items())
             if "PERSON" in value:
                 return key
         return None
-
-
-'''if "Alberto" in key:
-    print(key)
-    print(value)
-    return key'''
 
 
 def getTime():
@@ -133,12 +122,6 @@ def get_all_ingredients():
             if ingredient not in ingredients:
                 ingredients.append(ingredient.lower())
     return ingredients
-
-
-def selectQuestion():
-    lista = ("Ora parlami degli ingredienti di: ", "Invece adesso ti chiedo gli ingredienti della pozione chiamata: ",
-             "Elencami gli ingredienti di: ")
-    return random.choice(lista)
 
 
 def checkScream(frase):
@@ -201,9 +184,9 @@ def ask_question(pozione, domande_fatte, ingredienti_pozione, ingredienti_indovi
     if not aiuto:
         if domande_fatte == 0:
             risposta = input(
-                simpleNLG.printAskPotion(pozione, ingredienti_pozione, domande_fatte))
+                sp.printAskPotion(pozione, ingredienti_pozione, domande_fatte))
         else:
-            risposta = input(simpleNLG.printAskPotion(pozione, ingredienti_pozione, domande_fatte))
+            risposta = input(sp.printAskPotion(pozione, ingredienti_pozione, domande_fatte))
 
     # aiuto lo studente con una domanda vero/falso
     else:
@@ -251,7 +234,6 @@ def ask_question(pozione, domande_fatte, ingredienti_pozione, ingredienti_indovi
         risposta = input(repeat_question())
 
     if 'don\'t know' in risposta.lower():
-
         # salta alla domanda successiva
         score = float(-(difficolta * len(ingredienti_pozione) * 2))
         write_answer(risposta, score)
@@ -325,7 +307,7 @@ def check_ingredient(ingrediente, ingredienti):
     print(ingrediente, ingredienti)
     if ingrediente in ingredienti:
         print("Correct!\n")
-        simpleNLG.printAskIngredient(len(ingredienti))
+        sp.printAskIngredient(len(ingredienti))
         ingredienti.remove(ingrediente)
         return ingredienti, True
     else:
