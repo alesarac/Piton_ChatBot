@@ -19,8 +19,10 @@ difficolta = 1
 '''
     Decido, in base a che ora sia, se dire: "Buongiorno" o "Buonasera"
 '''
-if util.getTime() >= 18:
+if util.getTime() >= 12:
     print(sp.build_phrase("Good evening"))
+elif 12 < util.getTime() >= 18:
+    print(sp.build_phrase("Good afternoon"))
 else:
     print(sp.build_phrase("Good morning"))
 time.sleep(1)
