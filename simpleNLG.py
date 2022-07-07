@@ -191,7 +191,7 @@ def printAskPotion(potion, ingredienti_pozione, domande_fatte, domande_pozione):
         else:
             '''Let's start with the potion, + What is the ingredient?'''
             output = realize_output(proposition)
-            print("Let's start with the " + potion + ' ' + output.lower())
+            print("Let's start with the " + potion + ', ' + output.lower())
             util.write_question("Let's start with the " + potion + ', ' + output.lower())
     sentence = realize_output(proposition)
     util.write_question(sentence)

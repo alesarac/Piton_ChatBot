@@ -1,6 +1,0 @@
-Ashwinder's egg - score: 6
-
---------------------------
-
-Jobberknoll's feathers - score: 4
-Jobberknoll's feathers -> ingrediente ripetuto - score: -10.0
