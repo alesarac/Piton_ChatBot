@@ -1,3 +1,5 @@
+import random
+
 import utilities as util
 import time
 import simpleNLG as sp
@@ -12,7 +14,7 @@ import simpleNLG as sp
 '''
 util.load_KB()
 util.load_json()
-difficolta = 3
+difficolta = 1
 
 '''
     Decido, in base a che ora sia, se dire: "Buongiorno" o "Buonasera"
@@ -47,13 +49,16 @@ casata_nome = input("\n" + sp.ask_info("house") + "\n")
 casata_nome = util.answer_casata(casata_nome)
 
 print(f"\n{nome}" + ", " + sp.verb_subj("study", "you").lower())  # have you studied / did you study
-
-haiStudiato = input()  # si potrebbe parsificare la frase (si ho studiato, no non ho studiato)
-util.checkFrase(haiStudiato)
-if 'not' in haiStudiato.lower() or '\'t' in haiStudiato.lower() or 'no' in haiStudiato.lower():
-    haiStudiato = False
-else:
-    haiStudiato = True
+haiStudiato = None
+while haiStudiato is None:
+    haiStudiato = input()  # si potrebbe parsificare la frase (si ho studiato, no non ho studiato)
+    util.checkFrase(haiStudiato)
+    if 'not' in haiStudiato.lower() or '\'t' in haiStudiato.lower() or 'no' in haiStudiato.lower():
+        haiStudiato = False
+    elif 'yes' in haiStudiato.lower() or 'of course' in haiStudiato.lower() or 'i have studied' in haiStudiato.lower():
+        haiStudiato = True
+    else:
+        print("Don't make fun of me! Tell me if you have studied!")
 
 if haiStudiato:
     util.loading()
@@ -94,7 +99,7 @@ while domande > domande_fatte:
         score += float(score_)
 
     domande_fatte += 1
-    difficolta -= 1
+    difficolta += 1
 
 print('Good, we finished the exam\n')
 
@@ -104,4 +109,3 @@ elif 1 < score < 5:
     print("You could have done better, your score is: " + sp.printScore(score, casata_nome) + "\n")
 else:
     print("You have been very good, your score is: " + sp.printScore(score, casata_nome) + "\n")
-

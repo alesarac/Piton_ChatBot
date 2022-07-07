@@ -166,7 +166,7 @@ def realize_output(phrase):
     return output + '\n'
 
 
-def printAskPotion(potion, ingredienti_mancanti, domande_fatte):
+def printAskPotion(potion, ingredienti_pozione, domande_fatte, domande_pozione):
     lexicon = simplenlg.Lexicon.getDefaultLexicon()
     nlgFactory = simplenlg.NLGFactory(lexicon)
     '''What is the ingredient'''
@@ -174,7 +174,7 @@ def printAskPotion(potion, ingredienti_mancanti, domande_fatte):
     np_ingredients = nlgFactory.createNounPhrase("the", "ingredient")
     proposition = nlgFactory.createClause(np_ingredients, "be")
     proposition.setFeature(simplenlg.Feature.INTERROGATIVE_TYPE, simplenlg.InterrogativeType.WHAT_OBJECT)
-
+    ingredienti_mancanti = len(ingredienti_pozione)
     if ingredienti_mancanti == 1:
         '''What is the last ingredient?'''
         np_ingredients.addModifier("last")
@@ -182,9 +182,12 @@ def printAskPotion(potion, ingredienti_mancanti, domande_fatte):
         '''What are the ingredients?'''
         np_ingredients.setPlural(True)
         if domande_fatte != 0:
-            '''What are the ingredients of the potion?'''
-            np_potion.setSpecifier("of")
-            np_ingredients.addModifier(np_potion)
+            if domande_pozione > 0:
+                return printAskIngredient(ingredienti_mancanti)
+            else:
+                '''What are the ingredients of the potion?'''
+                np_potion.setSpecifier("of")
+                np_ingredients.addModifier(np_potion)
         else:
             '''Let's start with the potion, + What is the ingredient?'''
             output = realize_output(proposition)

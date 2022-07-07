@@ -77,8 +77,11 @@ def parser_oly_dep(frase):
 
 # serve per parsificare le entity e vedere se nella frase c'è un nome proprio di persona
 def parser_ne(frase):
-    if "Alberto" or "Enrico" or "Alessandro" == frase:
-        return frase
+    list_name = ["Enrico", "Alberto", "Alessandro"]
+    for name in list_name:
+        if name.lower() in frase.lower():
+            return name
+
     frase_parsata = nlp(frase)
     dict = {}
     for token in frase_parsata.ents:
@@ -182,9 +185,9 @@ def ask_question(pozione, domande_fatte, ingredienti_pozione, ingredienti_indovi
     if not aiuto:
         if domande_fatte == 0:
             risposta = input(
-                sp.printAskPotion(pozione, ingredienti_pozione, domande_fatte))
+                sp.printAskPotion(pozione, ingredienti_pozione, domande_fatte, domande_pozione))
         else:
-            risposta = input(sp.printAskPotion(pozione, ingredienti_pozione, domande_fatte))
+            risposta = input(sp.printAskPotion(pozione, ingredienti_pozione, domande_fatte, domande_pozione))
 
     # aiuto lo studente con una domanda vero/falso
     else:
@@ -240,14 +243,22 @@ def ask_question(pozione, domande_fatte, ingredienti_pozione, ingredienti_indovi
         return ingredienti_pozione, len(ingredienti_pozione) + 1, score
 
     if 'ingredient' in risposta:
+
         risposta_completa = risposta
         risposta = str(get_ingredient(risposta, False))
 
         ingredienti_pozione, is_correct = check_ingredient(risposta, ingredienti_pozione)
 
+        if risposta in ingredienti_indovinati:
+            score = -10.0
+            write_answer(risposta + " -> ingrediente ripetuto - score: " + str(score), "separator")
+            print("Correct, but you have already guessed this ingredient!\n")
+            return ingredienti_pozione, domande_pozione + 1, score
+
         if is_correct:
             score = difficolta * len(risposta.split())
             write_answer(risposta_completa, score)
+            ingredienti_indovinati.append(risposta)
 
             return ingredienti_pozione, domande_pozione + 1, score
         else:
@@ -257,8 +268,15 @@ def ask_question(pozione, domande_fatte, ingredienti_pozione, ingredienti_indovi
                                 domande_pozione, True)
 
     else:
+        if risposta in ingredienti_indovinati:
+            score = -10.0
+            write_answer(risposta + " -> ingrediente ripetuto - score: " + str(score), "separator")
+            print("Correct, but you have already guessed this ingredient!\n")
+            return ingredienti_pozione, domande_pozione + 1, score
+
         if risposta in ingredienti_pozione:
             ingredienti_pozione.remove(risposta)
+            ingredienti_indovinati.append(risposta)
 
             score = difficolta * len(risposta.split())
             write_answer(risposta, score)
@@ -321,6 +339,6 @@ def answer_casata(casata_nome):
         print("Ok let's proceed!")
         return casata_nome
     else:
-        print("Wrong name!")
+        print("You must tell me a valid house name!")
         casata_nome = input("\n" + sp.ask_info("house") + "\n")
         return answer_casata(casata_nome)
