@@ -77,18 +77,16 @@ def parser_oly_dep(frase):
 
 # serve per parsificare le entity e vedere se nella frase c'è un nome proprio di persona
 def parser_ne(frase):
-    if "Alberto" or "Enrico" or "Alessandro" == frase:
+    if "Alberto" == frase:
         return frase
-    elif frase == frase:
-        frase_parsata = nlp(frase)
-        dict = {}
-        for token in frase_parsata.ents:
-            dict[token.text] = [token.text, token.start_char, token.end_char, token.label_]
-        for key, value in dict.items():
-            print(dict.items())
-            if "PERSON" in value:
-                return key
-        return None
+    frase_parsata = nlp(frase)
+    dict = {}
+    for token in frase_parsata.ents:
+        dict[token.text] = [token.text, token.start_char, token.end_char, token.label_]
+    for key, value in dict.items():
+        if "PERSON" in value:
+            return key
+    return None
 
 
 def getTime():
@@ -274,7 +272,10 @@ def ask_question(pozione, domande_fatte, ingredienti_pozione, ingredienti_indovi
                                 domande_pozione, True)
 
 
-##### SPACY ####
+'''
+    SPACY
+'''
+
 
 def get_ingredient(frase, aiuto):
     if aiuto:
@@ -315,7 +316,6 @@ def check_ingredient(ingrediente, ingredienti):
 
 
 # funzione per timeout attesa input
-
 def answer_casata(casata_nome):
     if casata_nome == "Gryffindor" or casata_nome == "Hufflepuff" or casata_nome == "Ravenclaw" or casata_nome == "Slytherin":
         print("Ok let's proceed!")

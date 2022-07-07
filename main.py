@@ -3,11 +3,8 @@ import time
 import simpleNLG as sp
 
 # TODO:
-#   1)Nomi alberto alessandro enrico
 #   2)Quando risponde e che sia coerente con la domanda
 #   4)Score, in base al voto ti da un giudizio ---DA CAMBIRE I VOTI E FARLI REALI---
-#   5)Memory
-#   6)Pulizia generale
 #   7)Modificare l'interrogativa e fare controllo sulla negatività
 
 '''
@@ -36,8 +33,6 @@ util.loading()
 util.checkFrase(risposta_nome)
 
 nome = util.parser_ne(risposta_nome)
-if nome == "":
-    nome = None
 
 while nome is None:
     util.loading()
