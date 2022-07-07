@@ -1,3 +1,4 @@
+import pickle
 import queue
 import threading
 from pathlib import Path
@@ -13,13 +14,18 @@ import en_core_web_sm
 # import en_core_web_trf
 import json
 import simpleNLG
-import utilities
 
 imageCounter = 0
 nlp = None
 # dizionario globale delle pozioni
 pozioni = {}
 spacy.load('en_core_web_sm')
+
+with open('memory/questions.txt', 'wb') as f:
+    pickle.dump([], f)
+
+with open('memory/answers.txt', 'w+') as f:
+    f.write('')
 
 
 # caricare la KB allenata in italiano
@@ -97,11 +103,11 @@ def loading():
 
 
 # scelgo una pozione da chiedere all'untente in base alla dificoltà da 1 a 10
-def selectPoison(difficoltà):
+def selectPoison(difficolta):
     while True:
         pozionicopia = pozioni
         pozione = random.choice(list(pozionicopia))
-        if pozionicopia[pozione][0] == difficoltà:
+        if pozionicopia[pozione][0] == difficolta:
             pozioneScelta = {pozione: pozionicopia[pozione]}
             break
     return pozioneScelta
@@ -140,14 +146,54 @@ def checkFrase(frase):
     checkQuestion(frase)
 
 
+def write_question(question):
+    with open('memory/questions.txt', 'rb') as f:
+        qst_list = pickle.load(f)
+
+    with open('memory/questions.txt', 'wb') as f:
+        # aggiungo la domanda alla lista
+        if not qst_list:
+            qst_list = [question]
+        else:
+            qst_list.append(question)
+
+        pickle.dump(qst_list, f)
+
+
+def repeat_question():
+    with open('memory/questions.txt', 'rb') as f:
+        qst_list = pickle.load(f)
+    return str(qst_list[-1])
+
+
+def write_answer(answer, score):
+    with open('memory/answers.txt', 'a+') as f:
+        score = str(score)
+
+        if score == 'separator':
+            f.write(answer)
+        elif 'sbagliata' in score:
+            f.write(answer + ' ' + score)
+        else:
+            f.write(answer + ' - score: ' + score)
+        f.write('\n')
+
+
 def ask_question(pozione, domande_fatte, ingredienti_pozione, ingredienti_indovinati, difficolta, domande_pozione,
                  aiuto):
+    # per la memoria
+    if domande_pozione == 0 and domande_fatte >= 1:
+        write_answer('\n--------------------------\n', 'separator')
+
+    # faccio la domanda
     if not aiuto:
         if domande_fatte == 0:
             risposta = input(
                 simpleNLG.printAskPotion(pozione, ingredienti_pozione, domande_fatte))
         else:
             risposta = input(simpleNLG.printAskPotion(pozione, ingredienti_pozione, domande_fatte))
+
+    # aiuto lo studente con una domanda vero/falso
     else:
         ingrediente = random.choice(get_all_ingredients())
 
@@ -156,34 +202,82 @@ def ask_question(pozione, domande_fatte, ingredienti_pozione, ingredienti_indovi
             risposta_giusta = 'yes'
 
         risposta = str(input(ingrediente + ' is an ingredient of ' + pozione + '?\n')).lower()
-        if risposta == risposta_giusta:
-            print('Correct')
-            score = difficolta * len(ingrediente.split()) / 2
-            return ingredienti_pozione, domande_pozione + 1, float(score)
+
+        while 'again' in risposta.lower() or 'repeat' in risposta.lower():
+            risposta = input(repeat_question()).lower()
+
         else:
-            wrong_ingredient()
-            return ingredienti_pozione, domande_pozione + 2, 0
+            if risposta == risposta_giusta:
+                print('Correct')
+
+                score = difficolta * len(ingrediente.split()) / 2
+                write_answer(risposta, score)
+
+                return ingredienti_pozione, domande_pozione + 1, float(score)
+
+            # risposta sbagliata, ma rispondo sensato
+            elif risposta == 'yes' or risposta == 'no' or 'don\'t know' in risposta:
+                if 'don\'t know' in risposta.lower():
+                    print('-Don\'t know- it\'s not in my vocabulary!')
+                else:
+                    wrong_ingredient()
+                    score = float(-(difficolta * len(ingrediente.split()) / 3))
+                write_answer(risposta, score)
+
+                return ingredienti_pozione, domande_pozione + 2, score
+
+            # tutte le altre risposte
+            else:
+                print('You must answer to me with valid answer!')
+                score = float(-20)
+                write_answer(risposta, score)
+
+                return ingredienti_pozione, domande_pozione + 2, score
+
+    # controlla la risposta e analizzo l'ingrediente
+    while 'again' in risposta.lower() or 'repeat' in risposta.lower():
+        risposta = input(repeat_question())
+
+    if 'don\'t know' in risposta.lower():
+
+        # salta alla domanda successiva
+        score = float(-(difficolta * len(ingredienti_pozione) * 2))
+        write_answer(risposta, score)
+        ingredienti_pozione = []
+
+        return ingredienti_pozione, len(ingredienti_pozione) + 1, score
 
     if 'ingredient' in risposta:
+        risposta_completa = risposta
         risposta = str(get_ingredient(risposta, False))
+
+        ingredienti_pozione, is_correct = check_ingredient(risposta, ingredienti_pozione)
+
+        if is_correct:
+            score = difficolta * len(risposta.split())
+            write_answer(risposta_completa, score)
+
+            return ingredienti_pozione, domande_pozione + 1, score
+        else:
+            wrong_ingredient()
+            write_answer(risposta, 'sbagliata -> aiuto')
+            return ask_question(pozione, domande_fatte, ingredienti_pozione, ingredienti_indovinati, difficolta,
+                                domande_pozione, True)
 
     else:
         if risposta in ingredienti_pozione:
             ingredienti_pozione.remove(risposta)
-            return ingredienti_pozione, domande_pozione + 1, difficolta * len(risposta.split())
+
+            score = difficolta * len(risposta.split())
+            write_answer(risposta, score)
+
+            return ingredienti_pozione, domande_pozione + 1, score
         else:
-            utilities.wrong_ingredient()
+            wrong_ingredient()
+            write_answer(risposta, 'sbagliata -> aiuto')
+
             return ask_question(pozione, domande_fatte, ingredienti_pozione, ingredienti_indovinati, difficolta,
                                 domande_pozione, True)
-
-    ingredienti_pozione, is_correct = check_ingredient(risposta, ingredienti_pozione)
-
-    if is_correct:
-        return ingredienti_pozione, domande_pozione + 1, difficolta * len(risposta.split())
-    else:
-        wrong_ingredient()
-        return ask_question(pozione, domande_fatte, ingredienti_pozione, ingredienti_indovinati, difficolta,
-                            domande_pozione, True)
 
 
 ##### SPACY ####

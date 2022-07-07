@@ -2,6 +2,9 @@ import simplenlg
 
 
 # inizializza la phrase con la libreria SimpleNLG
+import utilities
+
+
 def init():
     lexicon = simplenlg.Lexicon.getDefaultLexicon()
     nlgFactory = simplenlg.NLGFactory(lexicon)
@@ -188,8 +191,10 @@ def printAskPotion(potion, ingredienti_mancanti, domande_fatte):
             '''Let's start with the potion, + What is the ingredient?'''
             output = realize_output(proposition)
             print("Let's start with the " + potion + ' ' + output.lower())
-
-    return realize_output(proposition)
+            utilities.write_question("Let's start with the " + potion + ', ' + output.lower())
+    sentence = realize_output(proposition)
+    utilities.write_question(sentence)
+    return sentence
 
 
 def printAskIngredient(nIngredient):
@@ -217,7 +222,9 @@ def printAskIngredient(nIngredient):
     continue_proposition = nlgFactory.createClause(np_ingredients, "be")
     continue_proposition.setFeature(simplenlg.Feature.INTERROGATIVE_TYPE, simplenlg.InterrogativeType.WHAT_OBJECT)
 
-    return realize_output(proposition) + realize_output(continue_proposition)
+    sentence = realize_output(proposition) + realize_output(continue_proposition)
+    utilities.write_question(sentence)
+    return sentence
 
 
 def printScore(score, casata_nome):
@@ -239,7 +246,7 @@ def printScore(score, casata_nome):
     return output
 
 
-def tiChiedero():
+def start_exam():
     lexicon = simplenlg.Lexicon.getDefaultLexicon()
     nlgFactory = simplenlg.NLGFactory(lexicon)
 
