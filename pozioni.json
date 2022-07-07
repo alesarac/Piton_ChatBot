@@ -1,20 +1,30 @@
 {
-   "Fire breathing potion":[
-      1,
-      ["mint",
+  "Fire breathing potion": [
+    1,
+    [
+      "mint",
       "lavander",
       "dragon's horn powder",
       "fire seeds",
-      "valerian twigs"]
-   ],
-   "Felix Felicis":[
-      3,
-      ["Ashwinder's egg"]
-   ],
-   "Memory potion":[
-      2,
-      ["Jobberknoll's feathers",
+      "valerian twigs"
+    ]
+  ],
+  "Felix Felicis": [
+    3,
+    [
+      "Ashwinder's egg",
+      "squill bulb",
+      "thyme tincture",
+      "occamy egg shell",
+      "powder common rue"
+    ]
+  ],
+  "Memory potion": [
+    2,
+    [
+      "Jobberknoll's feathers",
       "powder sage",
-      "snowdrop"]
-   ]
+      "snowdrop"
+    ]
+  ]
 }
