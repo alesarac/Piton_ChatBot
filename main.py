@@ -60,7 +60,7 @@ if haiStudiato:
     print("\nWell, now we will find out ..")
     time.sleep(1)
     # qui c'è da richiamare SimpleNLG e fargli crrare la frase nella print in inglese
-    print(sp.tiChiedero())
+    print(sp.start_exam())
     time.sleep(2)
     util.loading()
 else:
@@ -75,7 +75,7 @@ domande_fatte = 0
 
 ingredienti_indovinati = []
 all_ingredienti = util.get_all_ingredients()
-score = 0
+score = 0.0
 
 while domande > domande_fatte:
     pozioneScelta_dict = util.selectPoison(difficolta)
@@ -86,8 +86,8 @@ while domande > domande_fatte:
     # caso1: dico tutte gli ingr corretti, caso2: ti ho fatto ningred +1
 
     while len(ingredienti_pozione) > 0 and domande_pozione < len(ingredienti_pozione) + 1:
-        print('ingr pozione --------------- ' + str(ingredienti_pozione))
-        print('domande pozione ------------ ' + str(domande_pozione))
+        print(str(ingredienti_pozione))
+
         ingredienti_pozione_, domande_pozione_, score_ = util.ask_question(nome_pozione, domande_fatte,
                                                                            ingredienti_pozione,
                                                                            ingredienti_indovinati, difficolta,
@@ -95,9 +95,8 @@ while domande > domande_fatte:
                                                                            False)
         domande_pozione = domande_pozione_
         ingredienti_pozione = ingredienti_pozione_
-        score += score_
+        score += float(score_)
 
-    print(score)
     domande_fatte += 1
     difficolta -= 1
 
@@ -109,3 +108,5 @@ elif 1 < score < 5:
     print("Potevi fare di meglio")
 else:
     print("Bravo sei andato bene")
+
+print(sp.printScore(score, casata_nome))

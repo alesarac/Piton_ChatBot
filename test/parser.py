@@ -12,6 +12,4 @@ nome_pozione = str(list(pozioneScelta_dict.keys())[0])
 ingredienti_pozione = list(pozioneScelta_dict.values())[0][1]
 domande_pozione = len(ingredienti_pozione) + 1
 
-print(util.ask_question(nome_pozione, domande_fatte, ingredienti_pozione,
-                        ingredienti_indovinati, 2,
-                        False, False))
+print(util.repeat_question())
