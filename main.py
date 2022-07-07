@@ -4,10 +4,6 @@ import utilities as util
 import time
 import simpleNLG as sp
 
-# TODO:
-#   2)Quando risponde e che sia coerente con la domanda
-#   4)Score, in base al voto ti da un giudizio ---DA CAMBIRE I VOTI E FARLI REALI---
-#   7)Modificare l'interrogativa e fare controllo sulla negatività
 
 '''
     Carico la conoscenza base, le pozioni e setto la difficoltà di default
