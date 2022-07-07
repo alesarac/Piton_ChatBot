@@ -6,8 +6,7 @@ import simpleNLG as sp
 # TODO:
 #   1)Nomi alberto alessandro enrico
 #   2)Quando risponde e che sia coerente con la domanda
-#   3)Controllo della casata
-#   4)Score, in base al voto ti da un giudizio
+#   4)Score, in base al voto ti da un giudizio ---DA CAMBIRE I VOTI E FARLI REALI---
 #   5)Memory
 #   6)Pulizia generale
 #   7)Modificare l'interrogativa e fare controllo sulla negatività
@@ -32,12 +31,20 @@ util.loading()
 util.checkFrase(risposta_nome)
 
 nome = util.parser_ne(risposta_nome)
+if nome == "":
+    nome = None
 
 while nome is None:
     util.loading()
     risposta_nome = input("\n" + sp.no_answer("your", "name") + "\n")
     nome = util.parser_ne(risposta_nome)
     # controllo che la risposta è una frase, oppure il nome diretto
+
+# Parte relativa al riconosciemento della casata
+
+casata_nome = input("\n" + sp.ask_info("house") + "\n")
+casata_nome = util.answer_casata(casata_nome)
+
 print(f"\n{nome}" + ", " + sp.verb_subj("study", "you").lower())  # have you studied / did you study
 
 haiStudiato = input()  # si potrebbe parsificare la frase (si ho studiato, no non ho studiato)
@@ -63,8 +70,6 @@ else:
     time.sleep(2)
     exit()
 
-casata_nome = input("\n" + sp.ask_info("house") + "\n")
-util.checkFrase(casata_nome)
 domande = 2
 domande_fatte = 0
 
@@ -97,4 +102,10 @@ while domande > domande_fatte:
     difficolta -= 1
 
 print('Good, we finished the exam')
-print(sp.printScore(score, casata_nome))
+
+if score == 0:
+    print("Hai fatto una figura di merda, il tuo score è: " + sp.printScore(score, casata_nome))
+elif 1 < score < 5:
+    print("Potevi fare di meglio")
+else:
+    print("Bravo sei andato bene")

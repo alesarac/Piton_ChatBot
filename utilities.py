@@ -14,6 +14,7 @@ import en_core_web_sm
 import json
 import simpleNLG
 import utilities
+import simpleNLG as sp
 
 imageCounter = 0
 nlp = None
@@ -72,16 +73,26 @@ def parser_oly_dep(frase):
 
 # serve per parsificare le entity e vedere se nella frase c'è un nome proprio di persona
 def parser_ne(frase):
-    frase_parsata = nlp(frase)
-    dict = {}
-    for token in frase_parsata.ents:
-        dict[token.text] = [token.text, token.start_char, token.end_char, token.label_]
-        # print(f"text={token.text},inizio_stringa={token.start_char}, fine_stringa={token.end_char}, etichetta={
-        # token.label_}")
-    for key, value in dict.items():
-        if "PERSON" in value:
-            return key
-    return None
+    if "Alberto" or "Enrico" or "Alessandro" == frase:
+        return frase
+    elif frase == frase:
+        frase_parsata = nlp(frase)
+        dict = {}
+        for token in frase_parsata.ents:
+            dict[token.text] = [token.text, token.start_char, token.end_char, token.label_]
+            # print(f"text={token.text},inizio_stringa={token.start_char}, fine_stringa={token.end_char}, etichetta={
+            # token.label_}")
+        for key, value in dict.items():
+            print(dict.items())
+            if "PERSON" in value:
+                return key
+        return None
+
+
+'''if "Alberto" in key:
+    print(key)
+    print(value)
+    return key'''
 
 
 def getTime():
@@ -225,4 +236,14 @@ def check_ingredient(ingrediente, ingredienti):
     else:
         return ingredienti, False
 
+
 # funzione per timeout attesa input
+
+def answer_casata(casata_nome):
+    if casata_nome == "Gryffindor" or casata_nome == "Hufflepuff" or casata_nome == "Ravenclaw" or casata_nome == "Slytherin":
+        print("Ok let's proceed!")
+        return casata_nome
+    else:
+        print("Wrong name!")
+        casata_nome = input("\n" + sp.ask_info("house") + "\n")
+        return answer_casata(casata_nome)
