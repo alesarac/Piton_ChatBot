@@ -87,7 +87,7 @@ while domande > domande_fatte:
     domande_pozione = 0
 
     while len(ingredienti_pozione) > 0 and domande_pozione < len(ingredienti_pozione) + 1:
-        print(str(ingredienti_pozione))
+        print('\n' + str(ingredienti_pozione))
 
         ingredienti_pozione_, domande_pozione_, score_ = util.ask_question(nome_pozione, domande_fatte,
                                                                            ingredienti_pozione,
@@ -103,9 +103,9 @@ while domande > domande_fatte:
 
 print('Good, we finished the exam\n')
 
-if score == 0:
+if score < 0:
     print("You got it all wrong, your score is: " + sp.printScore(score, casata_nome) + "\n")
-elif 1 < score < 5:
+elif 13 < score < 22:
     print("You could have done better, your score is: " + sp.printScore(score, casata_nome) + "\n")
 else:
     print("You have been very good, your score is: " + sp.printScore(score, casata_nome) + "\n")

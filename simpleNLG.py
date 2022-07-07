@@ -163,7 +163,7 @@ def verb_subj(verb, subject):
 def realize_output(phrase):
     realizer = simplenlg.Realiser()
     output = realizer.realiseSentence(phrase)
-    return output + '\n'
+    return '\n' + output + '\n'
 
 
 def printAskPotion(potion, ingredienti_pozione, domande_fatte, domande_pozione):
@@ -181,18 +181,21 @@ def printAskPotion(potion, ingredienti_pozione, domande_fatte, domande_pozione):
     else:
         '''What are the ingredients?'''
         np_ingredients.setPlural(True)
-        if domande_fatte != 0:
+        if domande_fatte == 0 and domande_pozione == 0:
+            print(domande_fatte)
+            '''Let's start with the potion, + What is the ingredient?'''
+            output = realize_output(proposition)
+            sentence = "Let's start with the " + potion + ', ' + output.lower()
+            util.write_question(sentence)
+            return sentence
+        else:
             if domande_pozione > 0:
                 return printAskIngredient(ingredienti_mancanti)
             else:
                 '''What are the ingredients of the potion?'''
                 np_potion.setSpecifier("of")
                 np_ingredients.addModifier(np_potion)
-        else:
-            '''Let's start with the potion, + What is the ingredient?'''
-            output = realize_output(proposition)
-            print("Let's start with the " + potion + ', ' + output.lower())
-            util.write_question("Let's start with the " + potion + ', ' + output.lower())
+
     sentence = realize_output(proposition)
     util.write_question(sentence)
     return sentence
