@@ -77,7 +77,7 @@ def parser_oly_dep(frase):
 
 # serve per parsificare le entity e vedere se nella frase c'è un nome proprio di persona
 def parser_ne(frase):
-    if "Alberto" == frase:
+    if "Alberto" or "Enrico" or "Alessandro" == frase:
         return frase
     frase_parsata = nlp(frase)
     dict = {}
