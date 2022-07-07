@@ -105,7 +105,7 @@ print('Good, we finished the exam\n')
 
 if score < 0:
     print("You got it all wrong, your score is: " + sp.printScore(score, casata_nome) + "\n")
-elif 13 < score < 22:
+elif 10 <= score <= 22:
     print("You could have done better, your score is: " + sp.printScore(score, casata_nome) + "\n")
 else:
     print("You have been very good, your score is: " + sp.printScore(score, casata_nome) + "\n")
