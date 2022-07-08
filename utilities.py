@@ -2,6 +2,7 @@ import pickle
 from pathlib import Path
 import random
 from time import sleep
+
 import spacy
 from spacy import displacy
 from datetime import datetime
@@ -47,11 +48,9 @@ def load_json():
 # serve per creare l'immagine del parsing
 def displayParser(frase):
     global imageCounter
-    imageCounter = imageCounter + 1
     svg = displacy.render(frase, style="dep")
-    output_path = Path("result_spacy.svg".format(imageCounter))
+    output_path = Path("result_spacy.svg")
     output_path.open("w", encoding="utf-8").write(svg)
-
 
 # serve per parsificare le dipendenze di una frase data in input
 def parser_dep(fraseIngrediente):
@@ -198,7 +197,7 @@ def ask_question(pozione, domande_fatte, ingredienti_pozione, ingredienti_indovi
 
         risposta = str(input(ingrediente + ' is an ingredient of ' + pozione + '?\n')).lower()
 
-        while 'again' in risposta.lower() or 'repeat' in risposta.lower():
+        while 'again' in risposta.lower() or 'repeat' in risposta.lower() or 'what?' in risposta.lower():
             risposta = input(repeat_question()).lower()
 
         else:
@@ -216,7 +215,7 @@ def ask_question(pozione, domande_fatte, ingredienti_pozione, ingredienti_indovi
                     print('-Don\'t know- it\'s not in my vocabulary!')
                 else:
                     wrong_ingredient()
-                    score = float(-(difficolta * len(ingrediente.split()) / 3))
+                score = float(-(difficolta * len(ingrediente.split()) / 3))
                 write_answer(risposta, score)
 
                 return ingredienti_pozione, domande_pozione + 2, score
@@ -230,12 +229,10 @@ def ask_question(pozione, domande_fatte, ingredienti_pozione, ingredienti_indovi
                 return ingredienti_pozione, domande_pozione + 2, score
 
     # controlla la risposta e analizzo l'ingrediente
-    while 'again' in risposta.lower() or 'repeat' in risposta.lower():
+    while 'again' in risposta.lower() or 'repeat' in risposta.lower() or 'what?' in risposta.lower():
         risposta = input(repeat_question())
 
     if 'don\'t know' in risposta.lower():
-        if '' in risposta:
-            risposta = 'vuoto'
         # salta alla domanda successiva
         score = float(-(difficolta * len(ingredienti_pozione) * 2))
         write_answer(risposta, score)
@@ -246,7 +243,14 @@ def ask_question(pozione, domande_fatte, ingredienti_pozione, ingredienti_indovi
     if 'ingredient' in risposta:
 
         risposta_completa = risposta
-        risposta = str(get_ingredient(risposta, False))
+
+        # necessario in quanto spacy non li classifica come attr
+        if 'lavender' in risposta:
+            risposta = 'lavender'
+        elif 'mint' in risposta:
+            risposta = 'mint'
+        else:
+            risposta = str(get_ingredient(risposta, False))
 
         ingredienti_pozione, is_correct = check_ingredient(risposta, ingredienti_pozione)
 
@@ -290,6 +294,7 @@ def ask_question(pozione, domande_fatte, ingredienti_pozione, ingredienti_indovi
             return ask_question(pozione, domande_fatte, ingredienti_pozione, ingredienti_indovinati, difficolta,
                                 domande_pozione, True)
 
+
 '''
     SPACY
 '''
@@ -300,17 +305,18 @@ def get_ingredient(frase, aiuto):
         return
     sent_dict = {}
     frase_parsificata = nlp(frase)
+    displayParser(frase_parsificata)
+
     position = 'nsubj'
-    print(frase_parsificata.noun_chunks)
+
     for chunk in frase_parsificata.noun_chunks:
-        print(str(chunk) + ' - ' + str(chunk.root.dep_))
+        # print(str(chunk) + ' - ' + str(chunk.root.dep_))
         # controlla dove si trova l'ingrediente, se è soggetto oppure complemento
         if 'ingredient' in chunk.text and chunk.root.dep_ == 'nsubj':
             position = 'attr'
         if chunk.root.dep_ == 'nsubj' or chunk.root.dep_ == 'attr':
             sent_dict[chunk.root.dep_] = chunk
     displayParser(frase_parsificata)
-    print(sent_dict)
     return sent_dict[position]
 
 
@@ -343,5 +349,5 @@ def answer_casata(casata_nome):
         return casata_nome
     else:
         print("You must tell me a valid house name!")
-        casata_nome = input()
+        casata_nome = input("\n" + sp.ask_info("house") + "\n")
         return answer_casata(casata_nome)
