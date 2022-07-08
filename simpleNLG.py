@@ -158,7 +158,8 @@ def printScore(score, casata_nome):
     proposition = nlgFactory.createClause("I", "award", np_points)
     proposition.addComplement(np_casata)
 
-    if 1 < score < 0:
+    if score == 1.0 or score == -1.0:
+        print(score)
         np_points.setPlural(True)
 
     output = realize_output(proposition)
