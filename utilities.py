@@ -290,7 +290,6 @@ def ask_question(pozione, domande_fatte, ingredienti_pozione, ingredienti_indovi
             return ask_question(pozione, domande_fatte, ingredienti_pozione, ingredienti_indovinati, difficolta,
                                 domande_pozione, True)
 
-
 '''
     SPACY
 '''

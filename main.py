@@ -2,7 +2,6 @@ import utilities as util
 import time
 import simpleNLG as sp
 
-
 '''
     Carico la conoscenza base, le pozioni e setto la difficoltà di default
 '''
