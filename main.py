@@ -4,7 +4,6 @@ import utilities as util
 import time
 import simpleNLG as sp
 
-
 '''
     Carico la conoscenza base, le pozioni e setto la difficoltà di default
 '''
@@ -84,7 +83,7 @@ pozioni_chieste = []
 all_ingredienti = util.get_all_ingredients()
 score = 0.0
 
-while len(pozioni_chieste) != 3:
+while domande > domande_fatte:
     pozioneScelta_dict = util.selectPoison(difficolta)
     nome_pozione = str(list(pozioneScelta_dict.keys())[0])
     pozioni_chieste.append(nome_pozione)
@@ -107,8 +106,8 @@ while len(pozioni_chieste) != 3:
 print('Good, we finished the exam\n')
 
 if score < 0:
-    print("You got it all wrong. " + sp.printScore(score, casata_nome) + "\n")
+    print(nome + ", you got it all wrong. " + sp.printScore(score, casata_nome) + "\n")
 elif 10 <= score <= 22:
-    print("You could have done better. " + sp.printScore(score, casata_nome) + "\n")
+    print(nome + ", you could have done better. " + sp.printScore(score, casata_nome) + "\n")
 else:
-    print("You have been very good. " + sp.printScore(score, casata_nome) + "\n")
+    print(nome + ", you have been very good. " + sp.printScore(score, casata_nome) + "\n")
