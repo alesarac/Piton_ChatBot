@@ -2,7 +2,6 @@ import pickle
 from pathlib import Path
 import random
 from time import sleep
-
 import spacy
 from spacy import displacy
 from datetime import datetime
