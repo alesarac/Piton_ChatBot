@@ -97,7 +97,6 @@ def printAskPotion(potion, ingredienti_pozione, domande_fatte, domande_pozione):
         '''What are the ingredients?'''
         np_ingredients.setPlural(True)
         if domande_fatte == 0 and domande_pozione == 0:
-            print(domande_fatte)
             '''Let's start with the potion, + What is the ingredient?'''
             output = realize_output(proposition)
             sentence = "Let's start with the " + potion + ', ' + output.lower()
