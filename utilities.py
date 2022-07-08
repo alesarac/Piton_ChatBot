@@ -302,14 +302,16 @@ def get_ingredient(frase, aiuto):
     sent_dict = {}
     frase_parsificata = nlp(frase)
     position = 'nsubj'
+    print(frase_parsificata.noun_chunks)
     for chunk in frase_parsificata.noun_chunks:
-        # print(str(chunk) + ' - ' + str(chunk.root.dep_))
+        print(str(chunk) + ' - ' + str(chunk.root.dep_))
         # controlla dove si trova l'ingrediente, se è soggetto oppure complemento
         if 'ingredient' in chunk.text and chunk.root.dep_ == 'nsubj':
             position = 'attr'
         if chunk.root.dep_ == 'nsubj' or chunk.root.dep_ == 'attr':
             sent_dict[chunk.root.dep_] = chunk
     displayParser(frase_parsificata)
+    print(sent_dict)
     return sent_dict[position]
 
 
