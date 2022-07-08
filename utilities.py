@@ -233,7 +233,7 @@ def ask_question(pozione, domande_fatte, ingredienti_pozione, ingredienti_indovi
     while 'again' in risposta.lower() or 'repeat' in risposta.lower():
         risposta = input(repeat_question())
 
-    if 'don\'t know' in risposta.lower() or ''in risposta.lower():
+    if 'don\'t know' in risposta.lower():
         if '' in risposta:
             risposta = 'vuoto'
         # salta alla domanda successiva
@@ -338,9 +338,9 @@ def check_ingredient(ingrediente, ingredienti):
 def answer_casata(casata_nome):
     casata_nome =  casata_nome.lower()
     if casata_nome == "gryffindor" or casata_nome == "hufflepuff" or casata_nome == "ravenclaw" or casata_nome == "slytherin":
-        print("Ok let's proceed!")
+        print("\n" + "Ok let's proceed!")
         return casata_nome
     else:
         print("You must tell me a valid house name!")
-        casata_nome = input("\n" + sp.ask_info("house") + "\n")
+        casata_nome = input()
         return answer_casata(casata_nome)

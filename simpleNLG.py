@@ -78,7 +78,7 @@ def verb_subj(verb, subject):
 def realize_output(phrase):
     realizer = simplenlg.Realiser()
     output = realizer.realiseSentence(phrase)
-    return '\n' + output + '\n'
+    return output
 
 
 def printAskPotion(potion, ingredienti_pozione, domande_fatte, domande_pozione):
@@ -148,18 +148,25 @@ def printAskIngredient(nIngredient):
 
 def printScore(score, casata_nome):
     """I award 5 points to Gryffindor"""
+    score = int(score)
     lexicon = simplenlg.Lexicon.getDefaultLexicon()
     nlgFactory = simplenlg.NLGFactory(lexicon)
 
     np_casata = nlgFactory.createNounPhrase(casata_nome)
     np_casata.addPreModifier("to")
     np_points = nlgFactory.createNounPhrase("point")
-    np_points.addPreModifier(str(score))
+
     proposition = nlgFactory.createClause("I", "award", np_points)
     proposition.addComplement(np_casata)
+    if score < 0:
+        score = str(score).strip("-")
+        np_points.addPreModifier(str(score))
+        proposition = nlgFactory.createClause("I", "subtract", np_points)
+        proposition.addComplement(np_casata)
+    else:
+        np_points.addPreModifier(str(score))
 
-    if score == 1.0 or score == -1.0:
-        print(score)
+    if int(score) != 1:
         np_points.setPlural(True)
 
     output = realize_output(proposition)

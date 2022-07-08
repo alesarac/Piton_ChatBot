@@ -20,13 +20,13 @@ elif 12 < util.getTime() >= 18:
 else:
     print(sp.build_phrase("Good morning"))
 time.sleep(1)
-print(sp.build_phrase_complete("I", "be", "Severus Piton"))
+print(sp.build_phrase_complete("I", "be", "Severus Piton") + "\n")
 util.loading()
 
 '''
     Parte relativa al riconoscimento del nome
 '''
-risposta_nome = input("\n" + sp.ask_info("name") + "\n")
+risposta_nome = input(sp.ask_info("name") + "\n")
 util.loading()
 util.checkFrase(risposta_nome)
 
@@ -34,7 +34,7 @@ nome = util.parser_ne(risposta_nome)
 
 while nome is None or nome == '':
     util.loading()
-    risposta_nome = input("\n" + sp.no_answer("your", "name") + "\n")
+    risposta_nome = input(sp.no_answer("your", "name") + "\n")
     nome = util.parser_ne(risposta_nome)
     '''controllo che la risposta è una frase, oppure il nome diretto'''
 
@@ -46,10 +46,10 @@ casata_nome = util.answer_casata(casata_nome)
 
 while casata_nome is None or casata_nome == '':
     util.loading()
-    casata_nome = input("\n" + sp.no_answer("your", "house") + "\n")
+    casata_nome = input("\n" + sp.no_answer("your", "house"))
     casata_nome = util.parser_ne(casata_nome)
 
-print(f"\n{nome}" + ", " + sp.verb_subj("study", "you").lower())  # have you studied / did you study
+print(risposta_nome + ", " + sp.verb_subj("study", "you").lower())  # have you studied / did you study
 haiStudiato = None
 while haiStudiato is None or haiStudiato == '':
     haiStudiato = input()  # si potrebbe parsificare la frase (si ho studiato, no non ho studiato)
