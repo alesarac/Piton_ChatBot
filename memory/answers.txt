@@ -1,9 +1,2 @@
-i don't know - score: -10.0
-
---------------------------
-
-i don't know - score: -12.0
-
---------------------------
-
-i don't know - score: -30.0
+mint - score: 1
+lavender is an ingredient - score: 1

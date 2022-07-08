@@ -264,6 +264,7 @@ def ask_question(pozione, domande_fatte, ingredienti_pozione, ingredienti_indovi
             score = difficolta * len(risposta.split())
             write_answer(risposta_completa, score)
             ingredienti_indovinati.append(risposta)
+            print('Correct!')
 
             return ingredienti_pozione, domande_pozione + 1, score
         else:
@@ -285,6 +286,7 @@ def ask_question(pozione, domande_fatte, ingredienti_pozione, ingredienti_indovi
 
             score = difficolta * len(risposta.split())
             write_answer(risposta, score)
+            print('Correct!')
 
             return ingredienti_pozione, domande_pozione + 1, score
         else:
