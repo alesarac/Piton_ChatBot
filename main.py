@@ -34,7 +34,7 @@ util.checkFrase(risposta_nome)
 
 nome = util.parser_ne(risposta_nome)
 
-while nome is None:
+while nome is None or nome == '':
     util.loading()
     risposta_nome = input("\n" + sp.no_answer("your", "name") + "\n")
     nome = util.parser_ne(risposta_nome)
@@ -46,9 +46,14 @@ while nome is None:
 casata_nome = input("\n" + sp.ask_info("house") + "\n")
 casata_nome = util.answer_casata(casata_nome)
 
+while casata_nome is None or casata_nome == '':
+    util.loading()
+    casata_nome = input("\n" + sp.no_answer("your", "house") + "\n")
+    casata_nome = util.parser_ne(casata_nome)
+
 print(f"\n{nome}" + ", " + sp.verb_subj("study", "you").lower())  # have you studied / did you study
 haiStudiato = None
-while haiStudiato is None:
+while haiStudiato is None or haiStudiato == '':
     haiStudiato = input()  # si potrebbe parsificare la frase (si ho studiato, no non ho studiato)
     util.checkFrase(haiStudiato)
     if 'not' in haiStudiato.lower() or '\'t' in haiStudiato.lower() or 'no' in haiStudiato.lower():
@@ -71,22 +76,23 @@ else:
     time.sleep(2)
     exit()
 
-domande = 2
+domande = 3
 domande_fatte = 0
 
 ingredienti_indovinati = []
+pozioni_chieste = []
 all_ingredienti = util.get_all_ingredients()
 score = 0.0
 
-while domande > domande_fatte:
+while len(pozioni_chieste) != 3:
     pozioneScelta_dict = util.selectPoison(difficolta)
     nome_pozione = str(list(pozioneScelta_dict.keys())[0])
+    pozioni_chieste.append(nome_pozione)
     ingredienti_pozione = list(pozioneScelta_dict.values())[0][1]
     domande_pozione = 0
 
     while len(ingredienti_pozione) > 0 and domande_pozione < len(ingredienti_pozione) + 1:
         print('\n' + str(ingredienti_pozione))
-
         ingredienti_pozione_, domande_pozione_, score_ = util.ask_question(nome_pozione, domande_fatte,
                                                                            ingredienti_pozione,
                                                                            ingredienti_indovinati, difficolta,
@@ -97,13 +103,12 @@ while domande > domande_fatte:
         score += float(score_)
 
     domande_fatte += 1
-    difficolta += 1
 
 print('Good, we finished the exam\n')
 
 if score < 0:
-    print("You got it all wrong, your score is: " + sp.printScore(score, casata_nome) + "\n")
+    print("You got it all wrong. " + sp.printScore(score, casata_nome) + "\n")
 elif 10 <= score <= 22:
-    print("You could have done better, your score is: " + sp.printScore(score, casata_nome) + "\n")
+    print("You could have done better. " + sp.printScore(score, casata_nome) + "\n")
 else:
-    print("You have been very good, your score is: " + sp.printScore(score, casata_nome) + "\n")
+    print("You have been very good. " + sp.printScore(score, casata_nome) + "\n")
