@@ -238,6 +238,8 @@ def ask_question(pozione, domande_fatte, ingredienti_pozione, ingredienti_indovi
         write_answer(risposta, score)
         ingredienti_pozione = []
 
+        print(ingredienti_pozione)
+
         return ingredienti_pozione, len(ingredienti_pozione) + 1, score
 
     if 'ingredient' in risposta:

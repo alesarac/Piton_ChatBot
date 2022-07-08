@@ -75,6 +75,7 @@ else:
 
 domande = 3
 domande_fatte = 0
+difficolta = 1
 
 ingredienti_indovinati = []
 pozioni_chieste = []
@@ -100,6 +101,7 @@ while domande > domande_fatte:
         score += float(score_)
 
     domande_fatte += 1
+    difficolta += 1
 
 print('Good, we finished the exam\n')
 
