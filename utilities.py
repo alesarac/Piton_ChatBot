@@ -211,7 +211,7 @@ def ask_question(pozione, domande_fatte, ingredienti_pozione, ingredienti_indovi
 
             # risposta sbagliata, ma rispondo sensato
             elif risposta == 'yes' or risposta == 'no' or 'don\'t know' in risposta:
-                if 'don\'t know' in risposta.lower() or risposta.lower() == '':
+                if 'don\'t know' in risposta.lower():
                     print('-Don\'t know- it\'s not in my vocabulary!')
                 else:
                     wrong_ingredient()
@@ -232,7 +232,7 @@ def ask_question(pozione, domande_fatte, ingredienti_pozione, ingredienti_indovi
     while 'again' in risposta.lower() or 'repeat' in risposta.lower() or 'what?' in risposta.lower():
         risposta = input(repeat_question())
 
-    if 'don\'t know' in risposta.lower() or risposta.lower() == '':
+    if 'don\'t know' in risposta.lower():
         # salta alla domanda successiva
         score = float(-(difficolta * len(ingredienti_pozione) * 2))
         write_answer(risposta, score)
