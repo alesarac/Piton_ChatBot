@@ -1,5 +1,3 @@
-import random
-
 import utilities as util
 import time
 import simpleNLG as sp
